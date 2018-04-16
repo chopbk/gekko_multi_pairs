@@ -37,6 +37,11 @@ var Manager = function (conf) {
   this.max_amount_currency_buy = conf.max_amount_currency_buy;
   this.max_amount_asset_sell = conf.max_amount_asset_sell;
   this.enable_fix_amount = conf.enable_fix_amount;
+  this.amount_asset_bought = 0;
+  this.amount_currency_sold = 0;
+  log.debug('max_amount_currency_buy:  ' + this.max_amount_currency_buy);
+  log.debug('max_amount_asset_sell: ' + this.max_amount_asset_sell);
+  log.debug('enable_fix_amount: ' + this.enable_fix_amount);
   this.conf = conf;
   this.portfolio = {};
   this.fee;
@@ -155,12 +160,12 @@ Manager.prototype.getBalance = function (fund) {
 };
 Manager.prototype.log_error_buy = function () {
   return log.info(
-    'Wanted to buy but gekko has not sell yet'
+    'Wanted to buy but gekko has not sold yet'
   );
 };
 Manager.prototype.log_error_sell = function () {
   return log.info(
-    'Wanted to buy but gekko has not bought yet'
+    'Wanted to sell but gekko has not bought yet'
   );
 };
 // This function makes sure the limit order gets submitted
@@ -184,8 +189,9 @@ Manager.prototype.trade = function (what, retry) {
 
       /*start calculate plugin multil pairt*/
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
-        if (this.amount_asset_bought != 0)
+        if (this.amount_asset_bought != 0) {
           return this.log_error_buy();
+        }
         if (this.amount_currency_sold != 0) {
           amount_temp = this.amount_currency_sold / this.ticker.ask;
           log.info(
@@ -210,8 +216,10 @@ Manager.prototype.trade = function (what, retry) {
             'at',
             this.exchange.name,
           );
-        } else 
+        } else {
+          log.debug('error:  no config for max_amount_currency_buy');
           return this.log_error_buy(); /*if not sell and max_amount_currency_buy = 0*/
+        }
         if (amount > amount_temp)
           amount = amount_temp;
       }
@@ -227,8 +235,9 @@ Manager.prototype.trade = function (what, retry) {
 
       /*start calculate plugin multil pairt*/
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
-        if (this.amount_currency_sold != 0)
+        if (this.amount_currency_sold != 0) {
           return this.log_error_sell();
+        }
 
         if (this.amount_asset_bought != 0) {
           amount_temp = this.amount_asset_bought;
@@ -248,12 +257,13 @@ Manager.prototype.trade = function (what, retry) {
             this.exchange.name,
           );
           amount_temp = max_amount_asset_sell;
+        } else {
+          log.debug('error:  no config for max_amount_asset_sell');
+          return this.log_error_sell(); /*if not sell and max_amount_asset_sell = 0*/
         }
-        else 
-          return this.log_error_sell(); /*if not sell and max_amount_asset_sell = 0*/             
         if (amount > amount_temp)
           amount = amount_temp;
-      }  
+      }
       /*end calculate plugin multil pairt*/
 
       if (amount > 0) {
@@ -305,8 +315,7 @@ Manager.prototype.buy = function (amount, price) {
       'price:',
       order.price
     );
-    this.amount_asset_bought = amount;
-    this.amount_currency_sold = 0;
+
     this.exchange.buy(order.amount, order.price, this.noteOrder);
   }
 
@@ -319,6 +328,8 @@ Manager.prototype.buy = function (amount, price) {
       price: price
     });
   }
+  this.amount_asset_bought = amount;
+  this.amount_currency_sold = 0;
 };
 
 // first do a quick check to see whether we can sell
@@ -349,8 +360,6 @@ Manager.prototype.sell = function (amount, price) {
       'price:',
       order.price
     );
-    this.amount_currency_sold = amount * price;
-    this.amount_asset_bought = 0;
     this.exchange.sell(order.amount, order.price, this.noteOrder);
   }
 
@@ -363,6 +372,8 @@ Manager.prototype.sell = function (amount, price) {
       price: price
     });
   }
+  this.amount_currency_sold = amount * price;
+  this.amount_asset_bought = 0;
 };
 
 Manager.prototype.noteOrder = function (err, order) {
