@@ -36,7 +36,7 @@ dwsync.xml
 *.espressostorage
 
 # Folders & files to ignore
-
+node_modules/*
 node_modules
 candles.csv
 cexio.db
@@ -49,3 +49,9 @@ config-*.js
 private-*.js
 private-*.toml
 SECRET-api-keys.json
+exchanges/coingi.js
+exchanges/lakebtc.js
+plugins/postgresql/handle.js
+plugins/postgresql/reader.js
+plugins/postgresql/util.js
+plugins/postgresql/writer.js

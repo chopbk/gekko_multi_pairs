@@ -17,12 +17,16 @@ var log = require(dirs.core + 'log');
 var async = require('async');
 var checker = require(dirs.core + 'exchangeChecker.js');
 var moment = require('moment');
-
-var Manager = function(conf) {
+var enable_fix_amount = false;
+var max_amount_currency_buy = 0; //use in first buy, amount = max_amount_currency_buy / price
+var amount_currency_sold = 0;
+var amount_asset_bought = 0;
+var max_amount_asset_sell = 0; //use in first sell, amount = max_amount_asset 
+var Manager = function (conf) {
   _.bindAll(this);
 
   var error = checker.cantTrade(conf);
-  if(error)
+  if (error)
     util.die(error);
 
   this.exchangeMeta = checker.settings(conf);
@@ -30,13 +34,15 @@ var Manager = function(conf) {
   // create an exchange
   var Exchange = require(dirs.exchanges + this.exchangeMeta.slug);
   this.exchange = new Exchange(conf);
-
+  this.max_amount_currency_buy = conf.max_amount_currency_buy;
+  this.max_amount_asset_sell = conf.max_amount_asset_sell;
+  this.enable_fix_amount = conf.enable_fix_amount;
   this.conf = conf;
   this.portfolio = {};
   this.fee;
   this.action;
 
-  this.marketConfig = _.find(this.exchangeMeta.markets, function(p) {
+  this.marketConfig = _.find(this.exchangeMeta.markets, function (p) {
     return _.first(p.pair) === conf.currency.toUpperCase() && _.last(p.pair) === conf.asset.toUpperCase();
   });
   this.minimalOrder = this.marketConfig.minimalOrder;
@@ -45,7 +51,7 @@ var Manager = function(conf) {
   this.asset = conf.asset;
   this.keepAsset = 0;
 
-  if(_.isNumber(conf.keepAsset)) {
+  if (_.isNumber(conf.keepAsset)) {
     log.debug('Keep asset is active. Will try to keep at least ' + conf.keepAsset + ' ' + conf.asset);
     this.keepAsset = conf.keepAsset;
   }
@@ -57,9 +63,9 @@ var Manager = function(conf) {
 // teach our trader events
 util.makeEventEmitter(Manager);
 
-Manager.prototype.init = function(callback) {
+Manager.prototype.init = function (callback) {
   log.debug('getting ticker, balance & fee from', this.exchange.name);
-  var prepare = function() {
+  var prepare = function () {
     this.starting = false;
 
     log.info('trading at', this.exchange.name, 'ACTIVE');
@@ -76,30 +82,35 @@ Manager.prototype.init = function(callback) {
   ], _.bind(prepare, this));
 }
 
-Manager.prototype.setPortfolio = function(callback) {
-  var set = function(err, fullPortfolio) {
-    if(err)
+Manager.prototype.setPortfolio = function (callback) {
+  var set = function (err, fullPortfolio) {
+    if (err)
       util.die(err);
 
     // only include the currency/asset of this market
-    const portfolio = [ this.conf.currency, this.conf.asset ]
+    const portfolio = [this.conf.currency, this.conf.asset]
       .map(name => {
-        let item = _.find(fullPortfolio, {name});
+        let item = _.find(fullPortfolio, {
+          name
+        });
 
-        if(!item) {
+        if (!item) {
           log.debug(`Unable to find "${name}" in portfolio provided by exchange, assuming 0.`);
-          item = {name, amount: 0};
+          item = {
+            name,
+            amount: 0
+          };
         }
 
         return item;
       });
 
-    if(_.isEmpty(this.portfolio))
+    if (_.isEmpty(this.portfolio))
       this.emit('portfolioUpdate', this.convertPortfolio(portfolio));
 
     this.portfolio = portfolio;
 
-    if(_.isFunction(callback))
+    if (_.isFunction(callback))
       callback();
 
   }.bind(this);
@@ -107,66 +118,147 @@ Manager.prototype.setPortfolio = function(callback) {
   this.exchange.getPortfolio(set);
 };
 
-Manager.prototype.setFee = function(callback) {
-  var set = function(err, fee) {
+Manager.prototype.setFee = function (callback) {
+  var set = function (err, fee) {
     this.fee = fee;
 
-    if(err)
+    if (err)
       util.die(err);
 
-    if(_.isFunction(callback))
+    if (_.isFunction(callback))
       callback();
   }.bind(this);
   this.exchange.getFee(set);
 };
 
-Manager.prototype.setTicker = function(callback) {
-  var set = function(err, ticker) {
+Manager.prototype.setTicker = function (callback) {
+  var set = function (err, ticker) {
     this.ticker = ticker;
 
-    if(err)
+    if (err)
       util.die(err);
-    
-    if(_.isFunction(callback))
+
+    if (_.isFunction(callback))
       callback();
   }.bind(this);
   this.exchange.getTicker(set);
 };
 
 // return the [fund] based on the data we have in memory
-Manager.prototype.getFund = function(fund) {
-  return _.find(this.portfolio, function(f) { return f.name === fund});
+Manager.prototype.getFund = function (fund) {
+  return _.find(this.portfolio, function (f) {
+    return f.name === fund
+  });
 };
-Manager.prototype.getBalance = function(fund) {
+Manager.prototype.getBalance = function (fund) {
   return this.getFund(fund).amount;
 };
-
+Manager.prototype.log_error_buy = function () {
+  return log.info(
+    'Wanted to buy but gekko has not sell yet'
+  );
+};
+Manager.prototype.log_error_sell = function () {
+  return log.info(
+    'Wanted to buy but gekko has not bought yet'
+  );
+};
 // This function makes sure the limit order gets submitted
 // to the exchange and initiates order registers watchers.
-Manager.prototype.trade = function(what, retry) {
+Manager.prototype.trade = function (what, retry) {
   // if we are still busy executing the last trade
   // cancel that one (and ignore results = assume not filled)
-  if(!retry && _.size(this.orders))
+  if (!retry && _.size(this.orders))
     return this.cancelLastOrder(() => this.trade(what));
 
   this.action = what;
 
-  var act = function() {
+  var act = function () {
     var amount, price;
+    var amount_temp;
+    var blance_currency;
 
-    if(what === 'BUY') {
+    if (what === 'BUY') {
+      blance_currency = this.getBalance(this.currency); //get blance of currency
+      amount = blance_currency / this.ticker.ask; //calculate max amount
 
-      amount = this.getBalance(this.currency) / this.ticker.ask;
-      if(amount > 0){
-          price = this.ticker.bid;
-          this.buy(amount, price);
+      /*start calculate plugin multil pairt*/
+      if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
+        if (this.amount_asset_bought != 0)
+          return this.log_error_buy();
+        if (this.amount_currency_sold != 0) {
+          amount_temp = this.amount_currency_sold / this.ticker.ask;
+          log.info(
+            'BUY amount_currency_sold: ',
+            this.amount_currency_sold,
+            this.currency,
+            'with',
+            amount_temp,
+            this.asset,
+            'at',
+            this.exchange.name,
+          );
+        } else if (this.max_amount_currency_buy != 0) { /* this config use when first trade */
+          amount_temp = this.max_amount_currency_buy / this.ticker.ask;
+          log.info(
+            'BUY max_amount_currency_buy: ',
+            this.max_amount_currency_buy,
+            this.currency,
+            'with',
+            amount_temp,
+            this.asset,
+            'at',
+            this.exchange.name,
+          );
+        } else 
+          return this.log_error_buy(); /*if not sell and max_amount_currency_buy = 0*/
+        if (amount > amount_temp)
+          amount = amount_temp;
       }
-    } else if(what === 'SELL') {
+      /*end calculate plugin multil pairt*/
+
+      if (amount > 0) {
+        price = this.ticker.bid;
+        this.buy(amount, price);
+      }
+    } else if (what === 'SELL') {
 
       amount = this.getBalance(this.asset) - this.keepAsset;
-      if(amount > 0){
-          price = this.ticker.ask;
-          this.sell(amount, price);
+
+      /*start calculate plugin multil pairt*/
+      if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
+        if (this.amount_currency_sold != 0)
+          return this.log_error_sell();
+
+        if (this.amount_asset_bought != 0) {
+          amount_temp = this.amount_asset_bought;
+          log.info(
+            'SELL this.amount_asset_bought: ',
+            this.amount_asset_bought,
+            this.asset,
+            'at',
+            this.exchange.name,
+          );
+        } else if (max_amount_asset_sell != 0) {
+          log.info(
+            'SELL max_amount_asset_sell: ',
+            max_amount_asset_sell,
+            this.asset,
+            'at',
+            this.exchange.name,
+          );
+          amount_temp = max_amount_asset_sell;
+        }
+        else 
+          return this.log_error_sell(); /*if not sell and max_amount_asset_sell = 0*/             
+        if (amount > amount_temp)
+          amount = amount_temp;
+      }  
+      /*end calculate plugin multil pairt*/
+
+      if (amount > 0) {
+        price = this.ticker.ask;
+        this.sell(amount, price);
       }
     }
   };
@@ -178,8 +270,8 @@ Manager.prototype.trade = function(what, retry) {
 
 };
 
-Manager.prototype.getMinimum = function(price) {
-  if(this.minimalOrder.unit === 'currency')
+Manager.prototype.getMinimum = function (price) {
+  if (this.minimalOrder.unit === 'currency')
     return minimum = this.minimalOrder.amount / price;
   else
     return minimum = this.minimalOrder.amount;
@@ -188,11 +280,11 @@ Manager.prototype.getMinimum = function(price) {
 // first do a quick check to see whether we can buy
 // the asset, if so BUY and keep track of the order
 // (amount is in asset quantity)
-Manager.prototype.buy = function(amount, price) {
+Manager.prototype.buy = function (amount, price) {
   let minimum = 0;
   let process = (err, order) => {
     // if order to small
-    if(!order.amount || order.amount < minimum) {
+    if (!order.amount || order.amount < minimum) {
       return log.warn(
         'Wanted to buy',
         this.asset,
@@ -213,7 +305,8 @@ Manager.prototype.buy = function(amount, price) {
       'price:',
       order.price
     );
-
+    this.amount_asset_bought = amount;
+    this.amount_currency_sold = 0;
     this.exchange.buy(order.amount, order.price, this.noteOrder);
   }
 
@@ -221,20 +314,23 @@ Manager.prototype.buy = function(amount, price) {
     this.exchange.getLotSize('buy', amount, price, _.bind(process));
   } else {
     minimum = this.getMinimum(price);
-    process(undefined, { amount: amount, price: price });
+    process(undefined, {
+      amount: amount,
+      price: price
+    });
   }
 };
 
 // first do a quick check to see whether we can sell
 // the asset, if so SELL and keep track of the order
 // (amount is in asset quantity)
-Manager.prototype.sell = function(amount, price) {
+Manager.prototype.sell = function (amount, price) {
   let minimum = 0;
   let process = (err, order) => {
     // if order to small
     if (!order.amount || order.amount < minimum) {
       return log.warn(
-        'Wanted to buy',
+        'Wanted to sell',
         this.currency,
         'but the amount is too small ',
         '(' + parseFloat(amount).toFixed(8) + ' @',
@@ -253,7 +349,8 @@ Manager.prototype.sell = function(amount, price) {
       'price:',
       order.price
     );
-
+    this.amount_currency_sold = amount * price;
+    this.amount_asset_bought = 0;
     this.exchange.sell(order.amount, order.price, this.noteOrder);
   }
 
@@ -261,12 +358,15 @@ Manager.prototype.sell = function(amount, price) {
     this.exchange.getLotSize('sell', amount, price, _.bind(process));
   } else {
     minimum = this.getMinimum(price);
-    process(undefined, { amount: amount, price: price });
+    process(undefined, {
+      amount: amount,
+      price: price
+    });
   }
 };
 
-Manager.prototype.noteOrder = function(err, order) {
-  if(err) {
+Manager.prototype.noteOrder = function (err, order) {
+  if (err) {
     util.die(err);
   }
 
@@ -278,9 +378,9 @@ Manager.prototype.noteOrder = function(err, order) {
 };
 
 
-Manager.prototype.cancelLastOrder = function(done) {
+Manager.prototype.cancelLastOrder = function (done) {
   this.exchange.cancelOrder(_.last(this.orders), alreadyFilled => {
-    if(alreadyFilled)
+    if (alreadyFilled)
       return this.relayOrder(done);
 
     this.orders = [];
@@ -290,9 +390,9 @@ Manager.prototype.cancelLastOrder = function(done) {
 
 // check whether the order got fully filled
 // if it is not: cancel & instantiate a new order
-Manager.prototype.checkOrder = function() {
-  var handleCheckResult = function(err, filled) {
-    if(!filled) {
+Manager.prototype.checkOrder = function () {
+  var handleCheckResult = function (err, filled) {
+    if (!filled) {
       log.info(this.action, 'order was not (fully) filled, cancelling and creating new order');
       this.exchange.cancelOrder(_.last(this.orders), _.bind(handleCancelResult, this));
 
@@ -304,20 +404,19 @@ Manager.prototype.checkOrder = function() {
     this.relayOrder();
   }
 
-  var handleCancelResult = function(alreadyFilled) {
-    if(alreadyFilled)
+  var handleCancelResult = function (alreadyFilled) {
+    if (alreadyFilled)
       return;
 
-    if(this.exchangeMeta.forceReorderDelay) {
-        //We need to wait in case a canceled order has already reduced the amount
-        var wait = 10;
-        log.debug(`Waiting ${wait} seconds before starting a new trade on ${this.exchangeMeta.name}!`);
+    if (this.exchangeMeta.forceReorderDelay) {
+      //We need to wait in case a canceled order has already reduced the amount
+      var wait = 10;
+      log.debug(`Waiting ${wait} seconds before starting a new trade on ${this.exchangeMeta.name}!`);
 
-        setTimeout(
-            () => this.trade(this.action, true),
-            +moment.duration(wait, 'seconds')
-        );
-        return;
+      setTimeout(
+        () => this.trade(this.action, true), +moment.duration(wait, 'seconds')
+      );
+      return;
     }
 
     this.trade(this.action, true);
@@ -327,7 +426,7 @@ Manager.prototype.checkOrder = function() {
 }
 
 // convert into the portfolio expected by the performanceAnalyzer
-Manager.prototype.convertPortfolio = function(portfolio) {
+Manager.prototype.convertPortfolio = function (portfolio) {
   var asset = _.find(portfolio, a => a.name === this.asset).amount;
   var currency = _.find(portfolio, a => a.name === this.currency).amount;
 
@@ -338,7 +437,7 @@ Manager.prototype.convertPortfolio = function(portfolio) {
   }
 }
 
-Manager.prototype.relayOrder = function(done) {
+Manager.prototype.relayOrder = function (done) {
   // look up all executed orders and relay average.
   var relay = (err, res) => {
 
@@ -373,7 +472,7 @@ Manager.prototype.relayOrder = function(done) {
 
       this.orders = [];
 
-      if(_.isFunction(done))
+      if (_.isFunction(done))
         done();
     });
 
@@ -387,9 +486,9 @@ Manager.prototype.relayOrder = function(done) {
   async.series(getOrders, relay);
 }
 
-Manager.prototype.logPortfolio = function() {
+Manager.prototype.logPortfolio = function () {
   log.info(this.exchange.name, 'portfolio:');
-  _.each(this.portfolio, function(fund) {
+  _.each(this.portfolio, function (fund) {
     log.info('\t', fund.name + ':', parseFloat(fund.amount).toFixed(12));
   });
 };
