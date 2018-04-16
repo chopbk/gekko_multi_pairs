@@ -19,8 +19,8 @@ var checker = require(dirs.core + 'exchangeChecker.js');
 var moment = require('moment');
 var enable_fix_amount = false;
 var max_amount_currency_buy = 0; //use in first buy, amount = max_amount_currency_buy / price
-var amount_currency_sold = 0;
-var amount_asset_bought = 0;
+var amount_currency_sold,amount_currency_sold_temp;
+var amount_asset_bought,amount_asset_bought_temp;
 var max_amount_asset_sell = 0; //use in first sell, amount = max_amount_asset 
 var Manager = function (conf) {
   _.bindAll(this);
@@ -190,6 +190,7 @@ Manager.prototype.trade = function (what, retry) {
       /*start calculate plugin multil pairt*/
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
         if (this.amount_asset_bought != 0) {
+          log.debug('error:  amount_asset_bought'+this.amount_asset_bought);
           return this.log_error_buy();
         }
         if (this.amount_currency_sold != 0) {
@@ -236,6 +237,7 @@ Manager.prototype.trade = function (what, retry) {
       /*start calculate plugin multil pairt*/
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
         if (this.amount_currency_sold != 0) {
+          log.debug('error:  amount_currency_sold'+this.amount_currency_sold);
           return this.log_error_sell();
         }
 
@@ -328,8 +330,8 @@ Manager.prototype.buy = function (amount, price) {
       price: price
     });
   }
-  this.amount_asset_bought = amount;
-  this.amount_currency_sold = 0;
+  this.amount_asset_bought_temp = amount;
+  this.amount_currency_sold_temp = 0;
 };
 
 // first do a quick check to see whether we can sell
@@ -372,8 +374,8 @@ Manager.prototype.sell = function (amount, price) {
       price: price
     });
   }
-  this.amount_currency_sold = amount * price;
-  this.amount_asset_bought = 0;
+  this.amount_currency_sold_temp = amount * price;
+  this.amount_asset_bought_temp = 0;
 };
 
 Manager.prototype.noteOrder = function (err, order) {
@@ -411,7 +413,8 @@ Manager.prototype.checkOrder = function () {
     }
 
     log.info(this.action, 'was successfull');
-
+    this.amount_asset_bought = this.amount_asset_bought_temp;
+    this.amount_currency_sold = this.amount_currency_sold_temp;
     this.relayOrder();
   }
 
