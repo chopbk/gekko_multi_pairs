@@ -1,0 +1,1 @@
+cd /home/dinhtam94/0.work/gekko_multi_pairs && node gekko --config configUSDT_ETH.js >  result_trade/usdt_eth.txt

@@ -1,0 +1,1 @@
+cd /home/dinhtam94/0.work/gekko_multi_pairs && node gekko --config configUSDT_BNB.js >  result_trade/usdt_bnb.txt
