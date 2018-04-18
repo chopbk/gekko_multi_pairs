@@ -15,8 +15,8 @@ config.watch = {
   currency:'BTC',
   asset: 'BNB',
   enable_fix_amount: true,
-  max_amount_currency_buy: 0.0015,
-  max_amount_asset_sell: 0,
+  max_amount_currency_buy: 0,
+  max_amount_asset_sell: 1.5,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
