@@ -14,8 +14,9 @@ config.watch = {
 
   // see https://gekko.wizb.it/docs/introduction/supported_exchanges.html
   exchange: 'binance',
-  currency: 'ETH',
+  currency: 'BTC',
   asset: 'EOS',
+  enable_fix_amount: true,
   max_amount_currency_buy:0,
   max_amount_asset_sell: 1.6,
   // You can set your own tickrate (refresh rate).
