@@ -9,3 +9,4 @@
 /home/dinhtam94/0.work/gekko_multi_pairs/run/runETH_EOS.sh > /dev/null 2>&1 &
 /home/dinhtam94/0.work/gekko_multi_pairs/run/runETH_ELF.sh > /dev/null 2>&1 &
 /home/dinhtam94/0.work/gekko_multi_pairs/run/runBTC_NCASH.sh > /dev/null 2>&1 &
+/home/dinhtam94/0.work/gekko_multi_pairs/run/runBTC_TNB.sh > /dev/null 2>&1 &
