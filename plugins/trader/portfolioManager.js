@@ -186,15 +186,18 @@ Manager.prototype.trade = function (what, retry) {
     if (what === 'BUY') {
       blance_currency = this.getBalance(this.currency); //get blance of currency
       amount = blance_currency / this.ticker.ask; //calculate max amount
-
-      /*start calculate plugin multil pairt*/
+      
+      /*start calculate plugin multil pairt*/      
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
         if (this.amount_asset_bought != 0) {
           log.debug('error:  amount_asset_bought'+this.amount_asset_bought);
           return this.log_error_buy();
         }
         if (this.amount_currency_sold != 0) {
-          amount_temp = this.amount_currency_sold / this.ticker.ask;
+          if(this.max_amount_currency_buy != 0 && this.amount_currency_sold > this.max_amount_currency_buy*1.4){
+            this.amount_currency_sold = this.max_amount_currency_buy*1.4; /*don't want use more 40% currency profit*/
+          }
+          amount_temp = this.amount_currency_sold / this.ticker.ask;            
           log.info(
             'BUY amount_currency_sold: ',
             this.amount_currency_sold,
@@ -207,6 +210,7 @@ Manager.prototype.trade = function (what, retry) {
           );
         } else if (this.max_amount_currency_buy != 0) { /* this config use when first trade */
           amount_temp = this.max_amount_currency_buy / this.ticker.ask;
+          this.max_amount_asset_sell = amount_temp;
           log.info(
             'BUY max_amount_currency_buy: ',
             this.max_amount_currency_buy,
@@ -250,7 +254,7 @@ Manager.prototype.trade = function (what, retry) {
             'at',
             this.exchange.name,
           );
-        } else if (max_amount_asset_sell != 0) {
+        } else if (this.max_amount_asset_sell != 0) {
           log.info(
             'SELL max_amount_asset_sell: ',
             max_amount_asset_sell,
@@ -258,7 +262,8 @@ Manager.prototype.trade = function (what, retry) {
             'at',
             this.exchange.name,
           );
-          amount_temp = max_amount_asset_sell;
+          amount_temp = this.max_amount_asset_sell;
+          this.max_amount_currency_buy = amount_temp*this.ticker.ask;          
         } else {
           log.debug('error:  no config for max_amount_asset_sell');
           return this.log_error_sell(); /*if not sell and max_amount_asset_sell = 0*/
