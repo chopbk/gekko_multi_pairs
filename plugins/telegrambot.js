@@ -42,11 +42,11 @@ Actor.prototype.processCandle = function(candle, done) {
 
 Actor.prototype.processAdvice = function(advice) {
   if (advice.recommendation === 'soft') return;
+  this.advice = advice.recommendation;  
   if(advice.recommendation === 'long')
     this.advice = 'buy';
-  if(advice.recommendation === 'long')
+  if(advice.recommendation === 'short')
     this.advice = 'sell';    
-  this.advice = advice.recommendation;
   this.adviceTime = utc();
   this.advicePrice = this.price;
   this.subscribers.forEach(this.emitAdvice, this);
