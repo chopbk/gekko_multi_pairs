@@ -18,7 +18,7 @@ config.watch = {
   asset: 'NCASH',
   enable_fix_amount: true,
   max_amount_currency_buy: 0.0015,
-  max_amount_asset_sell: 300,
+  max_amount_asset_sell: 0,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -30,9 +30,9 @@ config.watch = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 config.tradingAdvisor = {
   enabled: true,
-  method: 'ThreeCandles',
-  candleSize: 1,
-  historySize: 1,
+  method: 'RSI_BB_ADX_Peak',
+  candleSize: 10,
+  historySize: 8,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
@@ -359,7 +359,6 @@ config.performanceAnalyzer = {
 // watched by `config.watch`.
 config.trader = {
   enabled: true,
-  max_amount_currency_buy : 1,
   key: 'CAJi88utpzutsVLDilCGlVOmk03CspJhopQmlRIrYU6S6QygSr2xlrHPUa0xeuC6',
   secret: 'Pk30gRT8Z7tq6uCLerrBPNNF4uzk9IQd9Bk6Mdyj2inMGp5KULKc0PgxL6UPGAnJ',
   username: 'chopbk', // your username, only required for specific exchanges.
