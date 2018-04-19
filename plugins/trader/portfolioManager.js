@@ -18,10 +18,10 @@ var async = require('async');
 var checker = require(dirs.core + 'exchangeChecker.js');
 var moment = require('moment');
 var enable_fix_amount = false;
-var max_amount_currency_buy = 0; //use in first buy, amount = max_amount_currency_buy / price
+var max_amount_currency_buy; //use in first buy, amount = max_amount_currency_buy / price
 var amount_currency_sold,amount_currency_sold_temp;
 var amount_asset_bought,amount_asset_bought_temp;
-var max_amount_asset_sell = 0; //use in first sell, amount = max_amount_asset 
+var max_amount_asset_sell; //use in first sell, amount = max_amount_asset 
 var Manager = function (conf) {
   _.bindAll(this);
 
@@ -257,7 +257,7 @@ Manager.prototype.trade = function (what, retry) {
         } else if (this.max_amount_asset_sell != 0) {
           log.info(
             'SELL max_amount_asset_sell: ',
-            max_amount_asset_sell,
+            this.max_amount_asset_sell,
             this.asset,
             'at',
             this.exchange.name,
@@ -511,5 +511,13 @@ Manager.prototype.logPortfolio = function () {
     log.info('\t', fund.name + ':', parseFloat(fund.amount).toFixed(12));
   });
 };
-
+Manager.prototype.getStartBlance = function(){
+  log.info('getStartBlance');
+  return {
+    max_amount_currency_buy: this.max_amount_currency_buy,
+    max_amount_asset_sell: this.max_amount_asset_sell,
+    amount_asset_bought: this.amount_asset_bought,
+    amount_currency_sold: this.amount_currency_sold
+  }
+}
 module.exports = Manager;
