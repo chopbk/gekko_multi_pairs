@@ -511,15 +511,15 @@ Manager.prototype.logPortfolio = function () {
   });
 };
 Manager.getStartBlance = function(){
-  log.info('getStartBlance');
+  log.info('getStartBlance'+ this.max_amount_currency_buy);
   return  this.max_amount_currency_buy;
 };
-Manager.getCurrencyBuy = function(){
-  log.info('amount_currency_sold');
+Manager.prototype.getCurrencyBuy = function(){
+  log.info('amount_currency_sold'+this.amount_currency_sold);
   return  this.amount_currency_sold;
 };
-Manager.getAssetSell = function(){
-  log.info('amount_currency_sold');
+Manager.prototype.getAssetSell = function(){
+  log.info('amount_asset_bought'+this.amount_asset_bought);
   return  this.amount_asset_bought;
 };
 module.exports = Manager;
