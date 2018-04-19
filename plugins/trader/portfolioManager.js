@@ -518,6 +518,6 @@ Manager.prototype.getStartBlance = function(){
     max_amount_asset_sell: this.max_amount_asset_sell,
     amount_asset_bought: this.amount_asset_bought,
     amount_currency_sold: this.amount_currency_sold
-  }
-}
+  };
+};
 module.exports = Manager;
