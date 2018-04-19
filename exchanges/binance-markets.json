@@ -1473,8 +1473,8 @@
         "EOS"
       ],
       "minimalOrder": {
-        "amount": 1,
-        "price": 1e-8,
+        "amount": 0.01,
+        "price": 0.000001,
         "order": 0.001
       }
     },

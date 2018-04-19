@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
-const managerPortfolio = require('../trader/portfolioManager');
+
 const stats = require('../../core/stats');
 const util = require('../../core/util');
 const ENV = util.gekkoEnv();
@@ -142,11 +142,12 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   // the portfolio's balance is measured in {currency}
   let balance = this.current.currency + this.price * this.current.asset;
   let profit = balance - this.start.balance;
+
   let timespan = moment.duration(
     this.dates.end.diff(this.dates.start)
   );
-  //let relativeProfit = balance / this.start.balance * 100 - 100
-  let relativeProfit = balance /  getStartBalance * 100 - 100
+  let relativeProfit = balance / this.start.balance * 100 - 100
+
   let report = {
     currency: this.currency,
     asset: this.asset,
