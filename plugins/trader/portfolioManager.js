@@ -413,7 +413,6 @@ Manager.prototype.checkOrder = function () {
     if (!filled) {
       log.info(this.action, 'order was not (fully) filled, cancelling and creating new order');
       this.exchange.cancelOrder(_.last(this.orders), _.bind(handleCancelResult, this));
-
       return;
     }
 
@@ -511,13 +510,16 @@ Manager.prototype.logPortfolio = function () {
     log.info('\t', fund.name + ':', parseFloat(fund.amount).toFixed(12));
   });
 };
-Manager.prototype.getStartBlance = function(){
+Manager.getStartBlance = function(){
   log.info('getStartBlance');
-  return {
-    max_amount_currency_buy: this.max_amount_currency_buy,
-    max_amount_asset_sell: this.max_amount_asset_sell,
-    amount_asset_bought: this.amount_asset_bought,
-    amount_currency_sold: this.amount_currency_sold
-  };
+  return  this.max_amount_currency_buy;
+};
+Manager.getCurrencyBuy = function(){
+  log.info('amount_currency_sold');
+  return  this.amount_currency_sold;
+};
+Manager.getAssetSell = function(){
+  log.info('amount_currency_sold');
+  return  this.amount_asset_bought;
 };
 module.exports = Manager;

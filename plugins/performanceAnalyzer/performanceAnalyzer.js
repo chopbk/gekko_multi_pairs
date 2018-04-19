@@ -140,17 +140,18 @@ PerformanceAnalyzer.prototype.handleRoundtrip = function() {
 
 PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   // the portfolio's balance is measured in {currency}
- // var getProfit = managerPortfolio.getStartBlance();
-  let balance = this.amount_asset_bought*this.price + this.amount_currency_sold;
-  let profit = balance - this.max_amount_currency_buy;
+  var getStartBalance = managerPortfolio.getStartBlance();
+  var getCurrentBalance = managerPortfolio.getCurrencyBuy() + managerPortfolio.getAssetSell()*this.price;
+  let balance = getCurrentBalance;
+  let profit = balance - getStartBalance;
   //let balance = this.current.currency + this.price * this.current.asset;
   //let profit = balance - this.start.balance;
-
+  console.log("getStartBalance "+getStartBalance+"getCurrentBalance"+getCurrentBalance+"profit"+profit);
   let timespan = moment.duration(
     this.dates.end.diff(this.dates.start)
   );
   //let relativeProfit = balance / this.start.balance * 100 - 100
-  let relativeProfit = balance /  this.max_amount_currency_buy * 100 - 100
+  let relativeProfit = balance /  getStartBalance * 100 - 100
   let report = {
     currency: this.currency,
     asset: this.asset,
@@ -171,7 +172,7 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
     endPrice: this.endPrice,
     trades: this.trades,
     //startBalance: this.start.balance,
-    startBalance: this.max_amount_currency_buy,
+    startBalance: getStartBalance,
     sharpe: this.sharpe
   }
 
