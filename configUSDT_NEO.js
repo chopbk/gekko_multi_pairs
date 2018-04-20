@@ -33,7 +33,7 @@ config.tradingAdvisor = {
   enabled: true,
   method: 'NEO',
   candleSize: 10,
-  historySize: 10,
+  historySize: 15,
   adapter: 'sqlite'
 }
 config.NEO = {
