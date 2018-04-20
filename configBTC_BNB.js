@@ -31,7 +31,7 @@ config.watch = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 config.tradingAdvisor = {
   enabled: true,
-  method: 'RSI_Bull_Bear_Adx_Stop',
+  method: 'NEO',
   candleSize: 10,
   historySize: 15,
   adapter: 'sqlite'

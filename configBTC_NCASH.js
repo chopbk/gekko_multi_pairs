@@ -30,9 +30,9 @@ config.watch = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 config.tradingAdvisor = {
   enabled: true,
-  method: 'RSI_BB_ADX_Peak',
+  method: 'NEO',
   candleSize: 10,
-  historySize: 8,
+  historySize: 15,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
