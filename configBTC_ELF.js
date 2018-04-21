@@ -17,8 +17,8 @@ config.watch = {
   currency:'BTC',
   asset: 'ELF',
   enable_fix_amount: true,
-  max_amount_currency_buy: 0,
-  max_amount_asset_sell: 13,
+  max_amount_currency_buy: 0.0015,
+  max_amount_asset_sell: 0,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -36,8 +36,8 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'RSI_Bull_Bear_Adx_Stop',
-  candleSize: 10,
-  historySize: 10,
+  candleSize: 3,
+  historySize: 4,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
