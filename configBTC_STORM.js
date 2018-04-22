@@ -15,7 +15,7 @@ config.watch = {
   // see https://gekko.wizb.it/docs/introduction/supported_exchanges.html
   exchange: 'binance',
   currency: 'BTC',
-  asset: 'XRP',
+  asset: 'STORM',
   enable_fix_amount: true,
   max_amount_currency_buy: 0.0015,
   max_amount_asset_sell: 0,
@@ -31,8 +31,8 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'RSI_BB_ADX_Peak',
-  candleSize: 3,
-  historySize: 4,
+  candleSize: 2,
+  historySize: 3,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
