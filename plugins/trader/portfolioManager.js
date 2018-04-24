@@ -20,7 +20,8 @@ var moment = require('moment');
 var enable_fix_amount = false;
 var max_amount_currency_buy; //use in first buy, amount = max_amount_currency_buy / price
 var amount_currency_sold,amount_currency_sold_temp;
-var amount_asset_bought,amount_asset_bought_temp;
+amount_asset_bought = 0;
+var amount_asset_bought_temp;
 var max_amount_asset_sell; //use in first sell, amount = max_amount_asset 
 var Manager = function (conf) {
   _.bindAll(this);
@@ -512,3 +513,5 @@ Manager.prototype.logPortfolio = function () {
 };
 
 module.exports = Manager;
+exports.max_amount_currency_buy2 = 10;
+exports.max_amount_currency_buy = max_amount_currency_buy;
