@@ -18,9 +18,11 @@ var async = require('async');
 var checker = require(dirs.core + 'exchangeChecker.js');
 var moment = require('moment');
 var enable_fix_amount = false;
-var max_amount_currency_buy; //use in first buy, amount = max_amount_currency_buy / price
-var amount_currency_sold,amount_currency_sold_temp;
-var amount_asset_bought,amount_asset_bought_temp;
+max_amount_currency_buy =0; //use in first buy, amount = max_amount_currency_buy / price
+var amount_currency_sold_temp;
+amount_currency_sold =0;
+amount_asset_bought= 0;
+var amount_asset_bought_temp;
 var max_amount_asset_sell; //use in first sell, amount = max_amount_asset 
 var Manager = function (conf) {
   _.bindAll(this);
@@ -34,12 +36,12 @@ var Manager = function (conf) {
   // create an exchange
   var Exchange = require(dirs.exchanges + this.exchangeMeta.slug);
   this.exchange = new Exchange(conf);
-  this.max_amount_currency_buy = conf.max_amount_currency_buy;
+  max_amount_currency_buy = conf.max_amount_currency_buy;
   this.max_amount_asset_sell = conf.max_amount_asset_sell;
   this.enable_fix_amount = conf.enable_fix_amount;
-  this.amount_asset_bought = 0;
-  this.amount_currency_sold = 0;
-  log.debug('max_amount_currency_buy:  ' + this.max_amount_currency_buy);
+  amount_asset_bought = 0;
+  amount_currency_sold = 0;
+  log.debug('max_amount_currency_buy:  ' + max_amount_currency_buy);
   log.debug('max_amount_asset_sell: ' + this.max_amount_asset_sell);
   log.debug('enable_fix_amount: ' + this.enable_fix_amount);
   this.conf = conf;
@@ -189,18 +191,18 @@ Manager.prototype.trade = function (what, retry) {
       
       /*start calculate plugin multil pairt*/      
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
-        if (this.amount_asset_bought != 0) {
-          log.debug('error:  amount_asset_bought'+this.amount_asset_bought);
+        if (amount_asset_bought != 0) {
+          log.debug('error:  amount_asset_bought'+amount_asset_bought);
           return this.log_error_buy();
         }
-        if (this.amount_currency_sold != 0) {
-          if(this.max_amount_currency_buy != 0 && this.amount_currency_sold > this.max_amount_currency_buy*1.4){
-            this.amount_currency_sold = this.max_amount_currency_buy*1.4; /*don't want use more 40% currency profit*/
+        if (amount_currency_sold != 0) {
+          if(max_amount_currency_buy != 0 && amount_currency_sold > max_amount_currency_buy*1.4){
+            amount_currency_sold = max_amount_currency_buy*1.4; /*don't want use more 40% currency profit*/
           }
-          amount_temp = this.amount_currency_sold / this.ticker.ask;            
+          amount_temp = amount_currency_sold / this.ticker.ask;            
           log.info(
             'BUY amount_currency_sold: ',
-            this.amount_currency_sold,
+            amount_currency_sold,
             this.currency,
             'with',
             amount_temp,
@@ -208,12 +210,12 @@ Manager.prototype.trade = function (what, retry) {
             'at',
             this.exchange.name,
           );
-        } else if (this.max_amount_currency_buy != 0) { /* this config use when first trade */
-          amount_temp = this.max_amount_currency_buy / this.ticker.ask;
+        } else if (max_amount_currency_buy != 0) { /* this config use when first trade */
+          amount_temp = max_amount_currency_buy / this.ticker.ask;
           this.max_amount_asset_sell = amount_temp;
           log.info(
             'BUY max_amount_currency_buy: ',
-            this.max_amount_currency_buy,
+            max_amount_currency_buy,
             this.currency,
             'with',
             amount_temp,
@@ -240,16 +242,16 @@ Manager.prototype.trade = function (what, retry) {
 
       /*start calculate plugin multil pairt*/
       if (this.enable_fix_amount) { /*if enable for trade with fix amount*/
-        if (this.amount_currency_sold != 0) {
-          log.debug('error:  amount_currency_sold'+this.amount_currency_sold);
+        if (amount_currency_sold != 0) {
+          log.debug('error:  amount_currency_sold'+amount_currency_sold);
           return this.log_error_sell();
         }
 
-        if (this.amount_asset_bought != 0) {
-          amount_temp = this.amount_asset_bought;
+        if (amount_asset_bought != 0) {
+          amount_temp = amount_asset_bought;
           log.info(
-            'SELL this.amount_asset_bought: ',
-            this.amount_asset_bought,
+            'SELL amount_asset_bought: ',
+            amount_asset_bought,
             this.asset,
             'at',
             this.exchange.name,
@@ -263,7 +265,7 @@ Manager.prototype.trade = function (what, retry) {
             this.exchange.name,
           );
           amount_temp = this.max_amount_asset_sell;
-          this.max_amount_currency_buy = amount_temp*this.ticker.ask;          
+          max_amount_currency_buy = amount_temp*this.ticker.ask;          
         } else {
           log.debug('error:  no config for max_amount_asset_sell');
           return this.log_error_sell(); /*if not sell and max_amount_asset_sell = 0*/
@@ -335,8 +337,8 @@ Manager.prototype.buy = function (amount, price) {
       price: price
     });
   }
-  this.amount_asset_bought_temp = amount;
-  this.amount_currency_sold_temp = 0;
+  amount_asset_bought_temp = amount;
+  amount_currency_sold_temp = 0;
 };
 
 // first do a quick check to see whether we can sell
@@ -379,8 +381,8 @@ Manager.prototype.sell = function (amount, price) {
       price: price
     });
   }
-  this.amount_currency_sold_temp = amount * price;
-  this.amount_asset_bought_temp = 0;
+  amount_currency_sold_temp = amount * price;
+  amount_asset_bought_temp = 0;
 };
 
 Manager.prototype.noteOrder = function (err, order) {
@@ -417,8 +419,8 @@ Manager.prototype.checkOrder = function () {
     }
 
     log.info(this.action, 'was successfull');
-    this.amount_asset_bought = this.amount_asset_bought_temp;
-    this.amount_currency_sold = this.amount_currency_sold_temp;
+    amount_asset_bought = amount_asset_bought_temp;
+    amount_currency_sold = amount_currency_sold_temp;
     this.relayOrder();
   }
 
@@ -512,3 +514,4 @@ Manager.prototype.logPortfolio = function () {
 };
 
 module.exports = Manager;
+
