@@ -147,6 +147,9 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   let profit = balance - this.start.balance;
   log.info(amount_asset_bought, ' amount_asset_bought');
   log.info(amount_currency_sold, ' amount_currency_sold');
+  log.info(portfolioManager.amount_currency_sold_temp, ' amount_currency_sold_temp');
+  log.info(portfolioManager.amount_asset_bought_temp, ' amount_asset_bought_temp');
+  
     let timespan = moment.duration(
     this.dates.end.diff(this.dates.start)
   );
