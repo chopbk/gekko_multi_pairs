@@ -4,7 +4,6 @@ const moment = require('moment');
 const stats = require('../../core/stats');
 const util = require('../../core/util');
 const ENV = util.gekkoEnv();
-var portfolioManager = require('../trader/portfolioManager');
 const config = util.getConfig();
 const perfConfig = config.performanceAnalyzer;
 const watchConfig = config.watch;
@@ -143,18 +142,19 @@ PerformanceAnalyzer.prototype.handleRoundtrip = function() {
 
 PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   // the portfolio's balance is measured in {currency}
-  let balance = this.current.currency + this.price * this.current.asset;
-  let profit = balance - this.start.balance;
-  log.info(amount_asset_bought, ' amount_asset_bought');
-  log.info(amount_currency_sold, ' amount_currency_sold');
-  log.info(portfolioManager.amount_currency_sold_temp, ' amount_currency_sold_temp');
-  log.info(portfolioManager.amount_asset_bought_temp, ' amount_asset_bought_temp');
+  //let balance = this.current.currency + this.price * this.current.asset;
+  //let profit = balance - this.start.balance;
+  let balance = amount_currency_sold + this.price *amount_asset_bought;
+  let profit = balance - max_amount_currency_buy;
+  log.info( 'balance: ',balance);
+  log.info( 'profit: ',profit);
   
+ 
     let timespan = moment.duration(
     this.dates.end.diff(this.dates.start)
   );
-  let relativeProfit = balance / this.start.balance * 100 - 100
-
+  //let relativeProfit = balance / this.start.balance * 100 - 100
+  let relativeProfit = balance / max_amount_currency_buy * 100 - 100
   let report = {
     currency: this.currency,
     asset: this.asset,
@@ -174,7 +174,8 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
     startPrice: this.startPrice,
     endPrice: this.endPrice,
     trades: this.trades,
-    startBalance: this.start.balance,
+    //startBalance: this.start.balance,
+    startBalance: max_amount_currency_buy,
     sharpe: this.sharpe
   }
 

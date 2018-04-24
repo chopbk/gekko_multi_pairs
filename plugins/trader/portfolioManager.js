@@ -18,7 +18,7 @@ var async = require('async');
 var checker = require(dirs.core + 'exchangeChecker.js');
 var moment = require('moment');
 var enable_fix_amount = false;
-var max_amount_currency_buy; //use in first buy, amount = max_amount_currency_buy / price
+max_amount_currency_buy =0; //use in first buy, amount = max_amount_currency_buy / price
 var amount_currency_sold_temp;
 amount_currency_sold =0;
 amount_asset_bought= 0;
@@ -36,12 +36,12 @@ var Manager = function (conf) {
   // create an exchange
   var Exchange = require(dirs.exchanges + this.exchangeMeta.slug);
   this.exchange = new Exchange(conf);
-  this.max_amount_currency_buy = conf.max_amount_currency_buy;
+  max_amount_currency_buy = conf.max_amount_currency_buy;
   this.max_amount_asset_sell = conf.max_amount_asset_sell;
   this.enable_fix_amount = conf.enable_fix_amount;
   amount_asset_bought = 0;
   amount_currency_sold = 0;
-  log.debug('max_amount_currency_buy:  ' + this.max_amount_currency_buy);
+  log.debug('max_amount_currency_buy:  ' + max_amount_currency_buy);
   log.debug('max_amount_asset_sell: ' + this.max_amount_asset_sell);
   log.debug('enable_fix_amount: ' + this.enable_fix_amount);
   this.conf = conf;
@@ -196,8 +196,8 @@ Manager.prototype.trade = function (what, retry) {
           return this.log_error_buy();
         }
         if (amount_currency_sold != 0) {
-          if(this.max_amount_currency_buy != 0 && amount_currency_sold > this.max_amount_currency_buy*1.4){
-            amount_currency_sold = this.max_amount_currency_buy*1.4; /*don't want use more 40% currency profit*/
+          if(max_amount_currency_buy != 0 && amount_currency_sold > max_amount_currency_buy*1.4){
+            amount_currency_sold = max_amount_currency_buy*1.4; /*don't want use more 40% currency profit*/
           }
           amount_temp = amount_currency_sold / this.ticker.ask;            
           log.info(
@@ -210,12 +210,12 @@ Manager.prototype.trade = function (what, retry) {
             'at',
             this.exchange.name,
           );
-        } else if (this.max_amount_currency_buy != 0) { /* this config use when first trade */
-          amount_temp = this.max_amount_currency_buy / this.ticker.ask;
+        } else if (max_amount_currency_buy != 0) { /* this config use when first trade */
+          amount_temp = max_amount_currency_buy / this.ticker.ask;
           this.max_amount_asset_sell = amount_temp;
           log.info(
             'BUY max_amount_currency_buy: ',
-            this.max_amount_currency_buy,
+            max_amount_currency_buy,
             this.currency,
             'with',
             amount_temp,
@@ -265,7 +265,7 @@ Manager.prototype.trade = function (what, retry) {
             this.exchange.name,
           );
           amount_temp = this.max_amount_asset_sell;
-          this.max_amount_currency_buy = amount_temp*this.ticker.ask;          
+          max_amount_currency_buy = amount_temp*this.ticker.ask;          
         } else {
           log.debug('error:  no config for max_amount_asset_sell');
           return this.log_error_sell(); /*if not sell and max_amount_asset_sell = 0*/
@@ -514,6 +514,4 @@ Manager.prototype.logPortfolio = function () {
 };
 
 module.exports = Manager;
-exports.max_amount_currency_buy2 = 10;
-module.exports.amount_currency_sold_temp = amount_currency_sold_temp;
-exports.amount_asset_bought_temp = amount_asset_bought_temp;
+
