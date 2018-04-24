@@ -19,8 +19,9 @@ var checker = require(dirs.core + 'exchangeChecker.js');
 var moment = require('moment');
 var enable_fix_amount = false;
 var max_amount_currency_buy; //use in first buy, amount = max_amount_currency_buy / price
-var amount_currency_sold,amount_currency_sold_temp;
-amount_asset_bought = 0;
+var amount_currency_sold_temp;
+amount_currency_sold;
+amount_asset_bought=10;
 var amount_asset_bought_temp;
 var max_amount_asset_sell; //use in first sell, amount = max_amount_asset 
 var Manager = function (conf) {

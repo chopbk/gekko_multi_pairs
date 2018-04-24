@@ -145,11 +145,9 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   // the portfolio's balance is measured in {currency}
   let balance = this.current.currency + this.price * this.current.asset;
   let profit = balance - this.start.balance;
-  log.info(portfolioManager.max_amount_currency_buy2, ' max_amount_currency_buy');
   log.info(amount_asset_bought, ' amount_asset_bought');
-  log.info(portfolioManager.amount_currency_sold, ' amount_currency_sold');
-  log.info(portfolioManager.amount_currency_sold_temp, ' amount_currency_sold_temp');
-  let timespan = moment.duration(
+  log.info(amount_currency_sold, ' amount_currency_sold');
+    let timespan = moment.duration(
     this.dates.end.diff(this.dates.start)
   );
   let relativeProfit = balance / this.start.balance * 100 - 100
