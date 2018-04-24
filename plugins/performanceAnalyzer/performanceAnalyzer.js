@@ -4,8 +4,7 @@ const moment = require('moment');
 const stats = require('../../core/stats');
 const util = require('../../core/util');
 const ENV = util.gekkoEnv();
-var max_amount_currency_buy2 = require('../trader/max_amount_currency_buy2');
-var max_amount_currency_buy = require('../trader/max_amount_currency_buy');
+var portfolioManager = require('../trader/portfolioManager');
 const config = util.getConfig();
 const perfConfig = config.performanceAnalyzer;
 const watchConfig = config.watch;
@@ -146,10 +145,10 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   // the portfolio's balance is measured in {currency}
   let balance = this.current.currency + this.price * this.current.asset;
   let profit = balance - this.start.balance;
-  log.info(this.max_amount_currency_buy2, ' max_amount_currency_buy');
-  log.info(max_amount_currency_buy2, ' max_amount_currency_buy');
+  log.info(portfolioManager.max_amount_currency_buy2, ' max_amount_currency_buy');
   log.info(amount_asset_bought, ' amount_asset_bought');
-  log.info(max_amount_currency_buy, ' max_amount_currency_buy');
+  log.info(portfolioManager.amount_currency_sold, ' amount_currency_sold');
+  log.info(portfolioManager.amount_currency_sold_temp, ' amount_currency_sold_temp');
   let timespan = moment.duration(
     this.dates.end.diff(this.dates.start)
   );

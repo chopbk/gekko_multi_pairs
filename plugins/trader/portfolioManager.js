@@ -514,4 +514,5 @@ Manager.prototype.logPortfolio = function () {
 
 module.exports = Manager;
 exports.max_amount_currency_buy2 = 10;
-exports.max_amount_currency_buy = max_amount_currency_buy;
+exports.amount_currency_sold = amount_currency_sold;
+module.exports.amount_currency_sold_temp = amount_currency_sold_temp;
