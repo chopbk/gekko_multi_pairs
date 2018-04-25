@@ -1,1 +1,1 @@
-cd /home/dinhtam94/0.work/gekko_multi_pairs && node gekko --config configBTC_EOS.js  >  result_trade/eth_eos.txt 
+cd /home/dinhtam94/0.work/zuki/gekko_multi_pairs && node gekko --config configETH_EOS_zuki.js  >  result_trade/eth_eos.txt 

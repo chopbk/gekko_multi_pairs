@@ -17,3 +17,5 @@ nohup /home/dinhtam94/0.work/gekko_multi_pairs/run/runBTC_IOST.sh > /dev/null 2>
 nohup /home/dinhtam94/0.work/gekko_multi_pairs/run/runBTC_BCC.sh > /dev/null 2>&1 &
 nohup /home/dinhtam94/0.work/gekko_multi_pairs/run/runUSDT_BTC2.sh > /dev/null 2>&1 &
 nohup /home/dinhtam94/0.work/gekko_multi_pairs/run/runUSDT_BTC_neural.sh > /dev/null 2>&1 &
+nohup /home/dinhtam94/0.work/gekko_multi_pairs/run/runNeural_BTC_BNB.sh > /dev/null 2>&1 &
+nohup /home/dinhtam94/0.work/zuki/gekko_multi_pairs/run/runETH_EOS.sh > /dev/null 2>&1 &
