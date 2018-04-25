@@ -222,7 +222,7 @@ Trader.prototype.addOrder = function(tradeType, amount, price, callback) {
   log.debug(`[binance.js] (addOrder) ${tradeType.toUpperCase()} ${amount} ${this.asset} @${price} ${this.currency}`);
 
   var setOrder = function(err, data) {
-    log.debug(`[binance.js] entering "setOrder" callback after api call, err: ${err} data: ${JSON.stringify(data)}`);
+    //log.debug(`[binance.js] entering "setOrder" callback after api call, err: ${err} `);// data: ${JSON.stringify(data)}`);
     if (err) return callback(err);
 
     var txid = data.orderId;
@@ -247,7 +247,7 @@ Trader.prototype.addOrder = function(tradeType, amount, price, callback) {
 
 Trader.prototype.getOrder = function(order, callback) {
   var get = function(err, data) {
-    log.debug(`[binance.js] entering "getOrder" callback after api call, err ${err} data: ${JSON.stringify(data)}`);
+    //log.debug(`[binance.js] entering "getOrder" callback after api call, err ${err} `);//data: ${JSON.stringify(data)}`);
     if (err) return callback(err);
 
     var price = parseFloat(data.price);
@@ -279,7 +279,7 @@ Trader.prototype.sell = function(amount, price, callback) {
 
 Trader.prototype.checkOrder = function(order, callback) {
   var check = function(err, data) {
-    log.debug(`[binance.js] entering "checkOrder" callback after api call, err ${err} data: ${JSON.stringify(data)}`);
+    //log.debug(`[binance.js] entering "checkOrder" callback after api call, err ${err}`);// data: ${JSON.stringify(data)}`);
     if (err) return callback(err);
 
     var stillThere = data.status === 'NEW' || data.status === 'PARTIALLY_FILLED';
@@ -299,7 +299,7 @@ Trader.prototype.checkOrder = function(order, callback) {
 Trader.prototype.cancelOrder = function(order, callback) {
   // callback for cancelOrder should be true if the order was already filled, otherwise false
   var cancel = function(err, data) {
-    log.debug(`[binance.js] entering "cancelOrder" callback after api call, err ${err} data: ${JSON.stringify(data)}`);
+   // log.debug(`[binance.js] entering "cancelOrder" callback after api call, err ${err} `);//data: ${JSON.stringify(data)}`);
     if (err) {
       if(data && data.msg === 'UNKNOWN_ORDER') {  // this seems to be the response we get when an order was filled
         return callback(true); // tell the thing the order was already filled
