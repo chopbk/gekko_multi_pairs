@@ -1,3 +1,4 @@
+npm install --only=production
 npm install sqlite3@3.1.4
 npm install binance
 npm install node-telegram-bot-api@0.24.0
