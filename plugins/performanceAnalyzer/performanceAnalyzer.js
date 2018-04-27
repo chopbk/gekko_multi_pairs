@@ -90,15 +90,16 @@ PerformanceAnalyzer.prototype.logRoundtripPart = function(trade) {
     this.roundTrip.entry = {
       date: trade.date,
       price: trade.price,
-      total: trade.portfolio.currency + (trade.portfolio.asset * trade.price),
+      total: amount_currency_sold + trade.price *amount_asset_bought,
+      //trade.portfolio.currency + (trade.portfolio.asset * trade.price),
     }
   } else if(trade.action === 'sell') {
     this.roundTrip.exit = {
       date: trade.date,
       price: trade.price,
-      total: trade.portfolio.currency + (trade.portfolio.asset * trade.price),
+      total: amount_currency_sold + trade.price *amount_asset_bought,
+      //trade.portfolio.currency + (trade.portfolio.asset * trade.price),
     }
-
     this.handleRoundtrip();
   }
 }
