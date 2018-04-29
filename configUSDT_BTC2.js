@@ -18,7 +18,7 @@ config.watch = {
   asset: 'BTC',
   enable_fix_amount: true,
   max_amount_currency_buy: 0,
-  max_amount_asset_sell: 0.0025,
+  max_amount_asset_sell: 0.0014,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -31,11 +31,27 @@ config.watch = {
 
 config.tradingAdvisor = {
   enabled: true,
-  method: 'BitBankStrategy',
-  candleSize: 1,
-  historySize: 5,
+  method: 'BBRSI',
+  candleSize: 5,
+  historySize: 40,
   adapter: 'sqlite'
 }
+
+config.BBRSI = {
+  interval : 14,
+
+  thresholds: {
+  low : 40,
+  high : 40,
+  persistence : 9,
+  },
+  bbands : {
+  TimePeriod : 20,
+  NbDevUp : 2,
+  NbDevDn : 2,
+  }
+}
+
 config.BitBankStrategy = {
   apiKey : "1AjN4AyhVgKCLLH7eWiu6H4AHDpxcNXmKK",
   pair : "USDT_BTC",
@@ -495,8 +511,8 @@ config.ircbot = {
 config.telegrambot = {
   enabled: true,
   emitUpdates: true,
-  token: '512237042:AAH9Hjn7faGMte8OfiGjptr8eCncaFg-9q4',
-  botName: 'chopbk_bot'
+  token: '473634383:AAEeFVnuVO0hebqVoaPKfRiO1mcuhaEGXcE',
+  botName: 'Tamdaicabot'
 }
 
 config.twitter = {

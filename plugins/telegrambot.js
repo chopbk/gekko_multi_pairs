@@ -84,25 +84,16 @@ Actor.prototype.emitUnSubscribe = function() {
 };
 
 Actor.prototype.emitAdvice = function(chatId) {
-  let message = [
-    'Advice for ',
-    config.watch.exchange,
-    ' ',
-    config.watch.currency,
-    '/',
-    config.watch.asset,
-    ' using ',
-    config.tradingAdvisor.method,
-    ' at ',
-    config.tradingAdvisor.candleSize,
-    ' minute candles, is:\n',
+  let message = [ this.advice,
+    ' ',config.watch.asset,
+    '/',config.watch.currency,
+    ' ',this.advicePrice,
+    ' ',config.tradingAdvisor.method,
+   ' at ',config.tradingAdvisor.candleSize,
+    ' minute in ',config.watch.exchange,
   ].join('');
   if (this.advice) {
-    message += this.advice +
-      ' ' +
-      config.watch.asset +
-      ' ' +
-      this.advicePrice +
+    message +=
       ' (' +
       this.adviceTime.fromNow() +
       ')';

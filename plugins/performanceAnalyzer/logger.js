@@ -34,13 +34,17 @@ Logger.prototype.logReport = function(trade, report) {
 
   var start = this.round(report.startBalance);
   var current = this.round(report.balance);
-
+  var marketChanges = this.round(report.market);
+  var startPrice =  this.round(report.startPrice);
+  var endPrice =  this.round(report.endPrice);
   log.info(`(PROFIT REPORT) original simulated balance:\t ${start} ${this.currency}`);
   log.info(`(PROFIT REPORT) current simulated balance:\t ${current} ${this.currency}`);
   log.info(
     `(PROFIT REPORT) simulated profit:\t\t ${this.round(report.profit)} ${this.currency}`,
     `(${this.round(report.relativeProfit)}%)`
   );
+  log.info(`(PROFIT REPORT) market changes:\t ${marketChanges} % ${startPrice} to ${endPrice}`);
+  
 }
 
 Logger.prototype.logRoundtripHeading = function() {

@@ -17,8 +17,8 @@ config.watch = {
   currency: 'USDT',
   asset: 'BTC',
   enable_fix_amount: true,
-  max_amount_currency_buy: 41,
-  max_amount_asset_sell: 0,
+  max_amount_currency_buy: 0,
+  max_amount_asset_sell: 0.003,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -33,7 +33,7 @@ config.tradingAdvisor = {
   enabled: true,
   method: 'NEO',
   candleSize: 10,
-  historySize: 15,
+  historySize: 19,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
@@ -489,8 +489,8 @@ config.ircbot = {
 config.telegrambot = {
   enabled: true,
   emitUpdates: true,
-  token: '512237042:AAH9Hjn7faGMte8OfiGjptr8eCncaFg-9q4',
-  botName: 'chopbk_bot'
+  token: '473634383:AAEeFVnuVO0hebqVoaPKfRiO1mcuhaEGXcE',
+  botName: 'Tamdaicabot'
 }
 
 config.twitter = {

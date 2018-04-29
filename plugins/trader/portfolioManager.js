@@ -22,6 +22,7 @@ max_amount_currency_buy =0; //use in first buy, amount = max_amount_currency_buy
 var amount_currency_sold_temp;
 amount_currency_sold =0;
 amount_asset_bought= 0;
+price_original = 0;
 var amount_asset_bought_temp;
 var max_amount_asset_sell; //use in first sell, amount = max_amount_asset 
 var Manager = function (conf) {
@@ -213,6 +214,7 @@ Manager.prototype.trade = function (what, retry) {
         } else if (max_amount_currency_buy != 0) { /* this config use when first trade */
           amount_temp = max_amount_currency_buy / this.ticker.ask;
           this.max_amount_asset_sell = amount_temp;
+          price_original =  this.ticker.ask;
           log.info(
             'BUY max_amount_currency_buy: ',
             max_amount_currency_buy,
@@ -264,6 +266,7 @@ Manager.prototype.trade = function (what, retry) {
             'at',
             this.exchange.name,
           );
+          price_original =  this.ticker.ask;
           amount_temp = this.max_amount_asset_sell;
           max_amount_currency_buy = amount_temp*this.ticker.ask;          
         } else {
