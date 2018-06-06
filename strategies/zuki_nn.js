@@ -131,7 +131,7 @@ var strategy = {
           && 'stoploss' === this.indicators.stoploss.action
       ) {
         this.stoplossCounter++;
-        log.debug('>>>>>>>>>> STOPLOSS triggered <<<<<<<<<<');
+        //log.debug('>>>>>>>>>> STOPLOSS triggered <<<<<<<<<<');
         this.advice('short');
       }
 
@@ -149,14 +149,14 @@ var strategy = {
       if ('buy' !== this.prevAction && signal === false  && meanAlpha> this.settings.threshold_buy )
       {
 
-        log.debug("Buy - Predicted variation: ",meanAlpha);
+        //log.debug("Buy - Predicted variation: ",meanAlpha);
         return this.advice('long');
       }
       else if
       ('sell' !== this.prevAction && signal === true && meanAlpha < this.settings.threshold_sell && signalSell)
       {
 
-        log.debug("Sell - Predicted variation: ",meanAlpha);
+        //log.debug("Sell - Predicted variation: ",meanAlpha);
         return this.advice('short');
 
       }

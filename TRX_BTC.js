@@ -14,11 +14,12 @@ config.watch = {
 
   // see https://gekko.wizb.it/docs/introduction/supported_exchanges.html
   exchange: 'binance',
-  currency: 'USDT',
-  asset: 'BTC',
+  currency: 'BTC',
+  asset: 'TRX',
   enable_fix_amount: true,
   max_amount_currency_buy: 0,
-  max_amount_asset_sell: 0.003,
+  max_amount_asset_sell: 184,
+
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -28,41 +29,12 @@ config.watch = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                       CONFIGURING TRADING ADVICE
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 config.tradingAdvisor = {
   enabled: true,
-  method: 'BBRSI',
+  method: 'NEO',
   candleSize: 10,
-  historySize: 20,
+  historySize: 16,
   adapter: 'sqlite'
-}
-config.gforms = {
-  enabled: true,
-  botTag: 'btc_usdt_bbrsi', //Add a custom tag here. This will be included in the name of the spreadsheet tab for this bot.
-  // Get a prefilled link of your google for, each question answered with a single space and paste here.
-  // It should resemble: https://docs.google.com/forms/d/e/1FAIp-My-Form-ID-K6PaOg3bPLg/viewform?usp=pp_url&entry.852051357=+&entry.1346916648=+&entry.1743858251=+&entry.105864059=+&entry.68010386=+&entry.3616735=+&entry.1463011579=+&entry.433943481=+&entry.620326103=+&entry.1202282384=+&entry.1415514787=+
-  prefill: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ_tIHuR3bZk7rtoOsP19Z4G7pzMIVokPjjLtprqYEL-vNew/viewform?usp=pp_url&entry.844370847=+&entry.1283504820=+&entry.1362807661=+&entry.821554856=+&entry.1419081390=+&entry.1130305640=+&entry.944005728=+&entry.1281633778=+&entry.774419284=+&entry.1710928960=+&entry.1153600456=+',
-};
-config.BBRSI = {
-  interval : 14,
-
-  thresholds: {
-  low : 40,
-  high : 40,
-  persistence : 9,
-  },
-  bbands : {
-  TimePeriod : 20,
-  NbDevUp : 2,
-  NbDevDn : 2,
-  }
-}
-
-config.BitBankStrategy = {
-  apiKey : "1AjN4AyhVgKCLLH7eWiu6H4AHDpxcNXmKK",
-  pair : "USDT_BTC",
-  maxFeatureSetAgeInSeconds : 60,
-  candlePeriodInMinutes : 1
 }
 config.RsiStopLoss = {
   interval: 14,
@@ -206,8 +178,8 @@ config.zuki_nn = {
   learning_rate: 0.01,
   momentum: 0.1,
   decay: 0.01,
-  stoploss_enabled: true,
-  stoploss_threshold: 0.9,
+  stoploss_enabled: false,
+  stoploss_threshold: 0.85,
   hodl_threshold: 1,
   price_buffer_len: 100,
   min_predictions: 1000
@@ -226,17 +198,7 @@ config.DEMA = {
     up: 0.025
   }
 };
-// RSI settings:
-config.RSI = {
-  interval: 2,
-  thresholds: {
-    low: 30,
-    high: 70,
-    // How many candle intervals should a trend persist
-    // before we consider it real?
-    persistence: 10
-  }
-};
+
 // MACD settings:
 config.MACD = {
   // EMA weight (α)
@@ -285,7 +247,17 @@ config.varPPO = {
   }
 };
 
-
+// RSI settings:
+config.RSI = {
+  interval: 5,
+  thresholds: {
+    low: 30,
+    high: 70,
+    // How many candle intervals should a trend persist
+    // before we consider it real?
+    persistence: 2
+  }
+};
 
 // TSI settings:
 config.TSI = {
@@ -327,7 +299,7 @@ config.CCI = {
 
 // StochRSI settings
 config.StochRSI = {
-  interval: 3,
+  interval: 4,
   thresholds: {
     low: 20,
     high: 80,
@@ -336,29 +308,7 @@ config.StochRSI = {
     persistence: 3
   }
 };
-// StochRSI_MACD_BB Settings
-config.StochRSI_MACD_BB = {
-  interval: 14,
-  short: 12,
-  long: 26,
-  signal: 9, 
-  bbands: {
-    TimePeriod: 20,
-    NbDevDn: 2,
-    NbDevUp: 2,
-    persistence_upper: 10,
-    persistence_lower: 10,  
-  }, 
-  thresholds: {
-    low: 20,
-    high: 80,
-    down: -0.1,//-2,//-0.1,
-    up: 0.1,//1.5,//0.25,   
-    // How many candle intervals should a trend persist
-    // before we consider it real?
-    persistence: 2
-  }
-};
+
 
 // custom settings:
 config.custom = {
@@ -376,19 +326,6 @@ config['talib-macd'] = {
     up: 0.025,
   }
 }
-// Uses one of the momentum indicators but adjusts the thresholds when PPO is bullish or bearish
-// Uses settings from the ppo and momentum indicator config block
- config.customPPO = {
-  momentum: 'TSI', // RSI, TSI or UO
-  thresholds: {
-    // new threshold is default threshold + PPOhist * PPOweight
-    weightLow: 120,
-    weightHigh: -120,
-    // How many candle intervals should a trend persist
-    // before we consider it real?
-    persistence: 0
-  }
-};
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                       CONFIGURING PLUGINS
@@ -412,10 +349,7 @@ config.paperTrader = {
   // how much slippage/spread should Gekko assume per trade?
   slippage: 0.05,
 }
-config.stop = {
-  enabled: true,
-  loss: 0.1
-}
+
 config.performanceAnalyzer = {
   enabled: true,
   riskFreeReturn: 5
@@ -436,7 +370,10 @@ config.adviceLogger = {
   enabled: true,
   muteSoft: true // disable advice printout if it's soft
 }
-
+config.stop = {
+  enabled: true,
+  loss: 0.1
+}
 config.pushover = {
   enabled: false,
   sendPushoverOnStart: false,
@@ -517,8 +454,8 @@ config.ircbot = {
 config.telegrambot = {
   enabled: true,
   emitUpdates: true,
-  token: '473634383:AAEeFVnuVO0hebqVoaPKfRiO1mcuhaEGXcE',
-  botName: 'Tamdaicabot'
+token: '573474406:AAHJ8t3_5SzdEip4mPm_Vutne852ojS8frw',
+  botName: 'BTC_tamdaica_bot'
 }
 
 config.twitter = {
@@ -659,7 +596,7 @@ config.backtest = {
 config.importer = {
   daterange: {
     // NOTE: these dates are in UTC
-    from: "2018-01-15 00:00:00"
+    from: "2018-12-01 00:00:00"
   }
 }
 

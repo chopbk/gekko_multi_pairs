@@ -100,7 +100,7 @@ var strategy = {
 
   setNormalizeFactor : function(candle) {
     this.scale = Math.pow(10,Math.trunc(candle.high).toString().length+2);
-    log.debug('Set normalization factor to',this.scale);
+    //log.debug('Set normalization factor to',this.scale);
   },
 
   update : function(candle)
@@ -147,7 +147,7 @@ var strategy = {
           && 'stoploss' === this.indicators.stoploss.action
       ) {
         this.stoplossCounter++;
-        log.debug('>>>>>>>>>> STOPLOSS triggered <<<<<<<<<<');
+        //log.debug('>>>>>>>>>> STOPLOSS triggered <<<<<<<<<<');
         this.advice('short');
       }
 
@@ -165,14 +165,14 @@ var strategy = {
       if ('buy' !== this.prevAction && signal === false  && meanAlpha> this.settings.threshold_buy )
       {
 
-        log.debug("Buy - Predicted variation: ",meanAlpha);
+        //log.debug("Buy - Predicted variation: ",meanAlpha);
         return this.advice('long');
       }
       else if
       ('sell' !== this.prevAction && signal === true && meanAlpha < this.settings.threshold_sell && signalSell)
       {
 
-        log.debug("Sell - Predicted variation: ",meanAlpha);
+        //log.debug("Sell - Predicted variation: ",meanAlpha);
         return this.advice('short');
 
       }
@@ -181,7 +181,7 @@ var strategy = {
   },
 
   end : function() {
-    log.debug('Triggered stoploss',this.stoplossCounter,'times');
+    //log.debug('Triggered stoploss',this.stoplossCounter,'times');
   }
 
 

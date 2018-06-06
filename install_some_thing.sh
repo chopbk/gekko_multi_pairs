@@ -11,3 +11,4 @@ npm install slayer
 npm install bignumber
 npm install convnetjs mathjs fs 
 npm install neataptic
+npm i require --save

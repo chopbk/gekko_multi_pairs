@@ -2448,6 +2448,17 @@
     },
     {
       "pair": [
+        "USDT",
+        "EOS"
+      ],
+      "minimalOrder": {
+        "amount": 0.001,
+        "price": 0.001,
+        "order": 10
+      }
+    },
+    {
+      "pair": [
         "BNB",
         "RCN"
       ],

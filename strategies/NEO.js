@@ -184,10 +184,10 @@ var strat = {
        if(this.debug)
        {
            let stat = this.stat;
-           log.debug('RSI low/high for period:');
-           log.debug('BEAR low/high: ' + stat.bear.min + ' / ' + stat.bear.max);
-           log.debug('BULL low/high: ' + stat.bull.min + ' / ' + stat.bull.max);
-           log.debug('IDLE low/high: ' + stat.idle.min + ' / ' + stat.idle.max);
+          // log.debug('RSI low/high for period:');
+          // log.debug('BEAR low/high: ' + stat.bear.min + ' / ' + stat.bear.max);
+          // log.debug('BULL low/high: ' + stat.bull.min + ' / ' + stat.bull.max);
+         //  log.debug('IDLE low/high: ' + stat.idle.min + ' / ' + stat.idle.max);
        }
    }
    

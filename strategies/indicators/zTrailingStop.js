@@ -22,9 +22,9 @@ Indicator.prototype.update = function(candle) {
     this.timesStopped++;
     this.shouldSell = true;
     log.debug("StopLoss Triggered: " + this.timesStopped);
-    log.debug("Last buy price: " + this.lastBuyPrice, " Last high price: " + this.lastHighPrice);
+    //log.debug("Last buy price: " + this.lastBuyPrice, " Last high price: " + this.lastHighPrice);
     const actualPercentChanged = (candle.close - this.lastBuyPrice) / this.lastBuyPrice * 100;
-    log.debug("Current Price: " + candle.close, " Actual percent changed from buy: " +  actualPercentChanged);
+   // log.debug("Current Price: " + candle.close, " Actual percent changed from buy: " +  actualPercentChanged);
     this.lastHighPrice = 0;
     this.lastBuyPrice = 0;
   }

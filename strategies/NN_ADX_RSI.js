@@ -308,35 +308,35 @@ method.log = function(candle) {
   var BB = this.indicators.bb;
 
 /* deshabilitar!!!
-  log.debug('______________________________________');
-  log.debug('calculated SMA:');
-  log.debug('SMA200:', this.mySMA200);
-  log.debug('SMAShort:', this.mySMAshort);
-  log.debug('SMALong:', this.mySMAlong);
-  //log.debug('SMA Long:', this.mySMAlong);
+  //log.debug('______________________________________');
+  //log.debug('calculated SMA:');
+  //log.debug('SMA200:', this.mySMA200);
+  //log.debug('SMAShort:', this.mySMAshort);
+  //log.debug('SMALong:', this.mySMAlong);
+  ////log.debug('SMA Long:', this.mySMAlong);
+
+  ////log.debug('______________________________________');
+  ////log.debug('calculated EMA:');
+  ////log.debug('EMA Short:', this.myEMAshort);
+  ////log.debug('EMA Long:', this.myEMAlong);
+  
+  //log.debug('______________________________________');
+  //log.debug('calculated StochRSI properties for candle:');
+  //log.debug('\t', 'rsi:', this.rsi.toFixed(digits));
+  //log.debug("StochRSI min:\t\t" + this.lowestRSI.toFixed(digits));
+  //log.debug("StochRSI max:\t\t" + this.highestRSI.toFixed(digits));
+  //log.debug("StochRSI Value:\t\t" + this.stochRSI.toFixed(2));
 
   //log.debug('______________________________________');
-  //log.debug('calculated EMA:');
-  //log.debug('EMA Short:', this.myEMAshort);
-  //log.debug('EMA Long:', this.myEMAlong);
-  
-  log.debug('______________________________________');
-  log.debug('calculated StochRSI properties for candle:');
-  log.debug('\t', 'rsi:', this.rsi.toFixed(digits));
-  log.debug("StochRSI min:\t\t" + this.lowestRSI.toFixed(digits));
-  log.debug("StochRSI max:\t\t" + this.highestRSI.toFixed(digits));
-  log.debug("StochRSI Value:\t\t" + this.stochRSI.toFixed(2));
-
-  log.debug('______________________________________');
-  log.debug('calculated BB properties for candle:');
-  if (BB.upper>this.HACandle.xclose)  log.debug('\t', 'Upper BB:', BB.upper.toFixed(digits));
-  if (BB.middle>this.HACandle.xclose) log.debug('\t', 'Mid   BB:', BB.middle.toFixed(digits));
-  if (BB.lower>=this.HACandle.xclose) log.debug('\t', 'Lower BB:', BB.lower.toFixed(digits));
-  log.debug('\t', 'Price:',this.HACandle.xclose.toFixed(digits));
-  if (BB.upper<=this.HACandle.xclose)  log.debug('\t', 'Upper BB:', BB.upper.toFixed(digits));
-  if (BB.middle<=this.HACandle.xclose) log.debug('\t', 'Mid   BB:', BB.middle.toFixed(digits));
-  if (BB.lower<this.HACandle.xclose)   log.debug('\t', 'Lower BB:', BB.lower.toFixed(digits));
-  log.debug('\t', 'Band gap: ', BB.upper.toFixed(digits) - BB.lower.toFixed(digits));
+  //log.debug('calculated BB properties for candle:');
+  if (BB.upper>this.HACandle.xclose)  //log.debug('\t', 'Upper BB:', BB.upper.toFixed(digits));
+  if (BB.middle>this.HACandle.xclose) //log.debug('\t', 'Mid   BB:', BB.middle.toFixed(digits));
+  if (BB.lower>=this.HACandle.xclose) //log.debug('\t', 'Lower BB:', BB.lower.toFixed(digits));
+  //log.debug('\t', 'Price:',this.HACandle.xclose.toFixed(digits));
+  if (BB.upper<=this.HACandle.xclose)  //log.debug('\t', 'Upper BB:', BB.upper.toFixed(digits));
+  if (BB.middle<=this.HACandle.xclose) //log.debug('\t', 'Mid   BB:', BB.middle.toFixed(digits));
+  if (BB.lower<this.HACandle.xclose)   //log.debug('\t', 'Lower BB:', BB.lower.toFixed(digits));
+  //log.debug('\t', 'Band gap: ', BB.upper.toFixed(digits) - BB.lower.toFixed(digits));
 */
 
   /* if(Price.length > 4){
@@ -418,7 +418,7 @@ ManageSize = function(){
         if( (this.trend.direction !== 'up' && (tendencia_BULL_BEAR === false && tendencia_IA === false) && IA_datos === true) ) 
         {
 
-            log.debug("BULL/BEAR - Buy - AT: \t\t",this.HACandle.xclose);
+            //log.debug("BULL/BEAR - Buy - AT: \t\t",this.HACandle.xclose);
 
             tendencia_BULL_BEAR = true;  //detecta compra por BULL-BEAR
 
@@ -433,8 +433,8 @@ ManageSize = function(){
             this.buyprice = this.HACandle.xclose;
             this.advice('long');
 
-            //log.debug('go long');  
-            //log.debug('BULL/BEAR - BUY'); 
+            ////log.debug('go long');  
+            ////log.debug('BULL/BEAR - BUY'); 
         }
         
         if(this.debug)
@@ -454,7 +454,7 @@ ManageSize = function(){
         {
 
            this.profit = (this.HACandle.xclose - this.buyprice)/this.buyprice*100;
-           log.debug("BULL/BEAR - Sell - At: \t",this.HACandle.xclose, 'profit:', this.profit.toFixed(2));
+           //log.debug("BULL/BEAR - Sell - At: \t",this.HACandle.xclose, 'profit:', this.profit.toFixed(2));
 
             tendencia_BULL_BEAR = false;          
             tendencia_IA = false;
@@ -472,7 +472,7 @@ ManageSize = function(){
             this.resetTrend();
             this.trend.direction = 'down';  
            
-            //log.debug('BULL/BEAR - SELL');               
+            ////log.debug('BULL/BEAR - SELL');               
             this.advice('short');
         }
         
@@ -551,7 +551,7 @@ method.check = function(candle) {
                 var top = per(Density30[Density30.length -1],-30);
                                // 1    x   1/100
                 var low =(per(Density30[0],-10)) ;
-               // log.debug("Variance :",Variance);
+               // //log.debug("Variance :",Variance);
               //  console.log('top:\t', top);
               //  console.log('low:\t', low);
                 
@@ -590,12 +590,12 @@ method.check = function(candle) {
 
                 /* deshabilitar!!!
                 if (hasbought){
-                 log.debug('______________________________________');
-                 log.debug('calculated STOP LOSS ');
-                 log.debug("profitbuy:",profitbuy);
-                 log.debug("rsi:  ",this.rsi);
-                 log.debug("buyprice:  ",buyprice);
-                 log.debug("current:",this.HACandle.xclose);                                  
+                 //log.debug('______________________________________');
+                 //log.debug('calculated STOP LOSS ');
+                 //log.debug("profitbuy:",profitbuy);
+                 //log.debug("rsi:  ",this.rsi);
+                 //log.debug("buyprice:  ",buyprice);
+                 //log.debug("current:",this.HACandle.xclose);                                  
                 }
                 */
          
@@ -617,9 +617,9 @@ method.check = function(candle) {
 
                         IA_datos = true; //carga de datos y primera compra confirmada!
                         
-                         log.debug("IA - Buy - AT: \t\t",this.HACandle.xclose);
-                        //  log.debug("Variance :",Variance);
-                        //  log.debug("Density 30: low  ",low);    
+                         //log.debug("IA - Buy - AT: \t\t",this.HACandle.xclose);
+                        //  //log.debug("Variance :",Variance);
+                        //  //log.debug("Density 30: low  ",low);    
 
                           tendencia_IA = true;                         
 
@@ -636,9 +636,9 @@ method.check = function(candle) {
                  (((oversold === true && this.SLActive && buytime > this.settings.thresholds.low && hasbought===true) || (global.sig0 === true && percentvar < -0.90 && hasbought === true) || ((hasbought===true && this.indicators.rsi.result > this.settings.thresholds.high && StochRSIsaysSELL) && this.SLActive) || (Price >= BB.upper) )  && (tendencia_BULL_BEAR === false && tendencia_IA === true)  )   
                 {                                                                                                                                                                                                                                                                                                                           
                       profit = (this.HACandle.xclose - buyprice)/buyprice*100;
-                      log.debug("IA - Sell - At: \t",this.HACandle.xclose, 'profit:', profit.toFixed(2));
-                      //   log.debug("Density 30 high : ",top);
-                    //   log.debug("Variance :",Variance);                    
+                      //log.debug("IA - Sell - At: \t",this.HACandle.xclose, 'profit:', profit.toFixed(2));
+                      //   //log.debug("Density 30 high : ",top);
+                    //   //log.debug("Variance :",Variance);                    
                       meanp = 0;
                       mean = 0;
                       hasbought = false;
@@ -657,12 +657,12 @@ method.check = function(candle) {
 
                 } else {  //condicion para canales bajistas
 
-                   //log.debug('Condicion Validad, toma otro camino!!!!'); 
+                   ////log.debug('Condicion Validad, toma otro camino!!!!'); 
                  
                 //BEAR TREND
           if( maFast < maSlow ) {
             
-            //log.debug('maFast < maSlow'); 
+            ////log.debug('maFast < maSlow'); 
             this.rsi2 = this.tulipIndicators.BEAR_RSI.result.result;
             let rsi_hi = this.settings.BEAR_RSI_high,
             rsi_low = this.settings.BEAR_RSI_low;
@@ -697,7 +697,7 @@ method.check = function(candle) {
                 this.long();
                } 
                if(this.debug) this.lowHigh( this.rsi2, 'idle' );
-               //log.debug('IDLE-trend');
+               ////log.debug('IDLE-trend');
            }
 
            // REAL BULL TREND
@@ -719,7 +719,7 @@ method.check = function(candle) {
                else if(this.rsi2 < rsi_low ) this.long();
                
                if(this.debug) this.lowHigh( this.rsi2, 'bull' );
-               //log.debug('BULL-trend');
+               ////log.debug('BULL-trend');
            }            
 
           } //fin if-else     

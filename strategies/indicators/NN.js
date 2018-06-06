@@ -117,13 +117,13 @@ Indicator.prototype.check = function(candle){
     let signal = meanp < currentPrice;
     if ('buy' !== this.prevAction && signal === false  && meanAlpha> this.settings.threshold_buy )
     {
-      log.debug("Buy - Predicted variation: ",meanAlpha);
+      //log.debug("Buy - Predicted variation: ",meanAlpha);
       return 'long';
     }
     else if
     ('sell' !== this.prevAction && signal === true && meanAlpha < this.settings.threshold_sell && signalSell)
     {
-      log.debug("Sell - Predicted variation: ",meanAlpha);
+      //log.debug("Sell - Predicted variation: ",meanAlpha);
       return 'short';
     }
   }
