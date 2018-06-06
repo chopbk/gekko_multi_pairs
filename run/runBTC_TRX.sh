@@ -1,1 +1,1 @@
-cd /home/dinhtam94/0.work/gekko_multi_pairs && node gekko --config configBTC_TRX.js  >   result_trade/btc_trx2.txt 
+cd /home/dinhtam94/0.work/gekko_multi_pairs && node gekko --config TRX_BTC.js  >   result_trade/btc_trx2.txt 
