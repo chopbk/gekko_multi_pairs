@@ -1,0 +1,7 @@
+pair = "USDT_BTC"
+maxFeatureSetAgeInSeconds = 60
+candlePeriodInMinutes = 1
+
+[backTest]
+enable = true
+csvPath = "/mnt/d/repos/bitbank-gekko/backtest-data/bitbank-btc_eth-by-date.csv"

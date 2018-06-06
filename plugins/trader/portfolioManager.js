@@ -197,8 +197,8 @@ Manager.prototype.trade = function (what, retry) {
           return this.log_error_buy();
         }
         if (amount_currency_sold != 0) {
-          if(max_amount_currency_buy != 0 && amount_currency_sold > max_amount_currency_buy*1.4){
-            amount_currency_sold = max_amount_currency_buy*1.4; /*don't want use more 40% currency profit*/
+          if(max_amount_currency_buy != 0 && amount_currency_sold > max_amount_currency_buy*1.25){
+            amount_currency_sold = max_amount_currency_buy*1.12; /*don't want use more 20% currency profit*/
           }
           amount_temp = amount_currency_sold / this.ticker.ask;            
           log.info(

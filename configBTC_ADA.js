@@ -17,8 +17,8 @@ config.watch = {
   currency: 'BTC',
   asset: 'ADA',
   enable_fix_amount: true,
-  max_amount_currency_buy: 0,
-  max_amount_asset_sell: 43,
+  max_amount_currency_buy: 0.0013,
+  max_amount_asset_sell: 0,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -32,8 +32,8 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'RsiStopLoss',
-  candleSize: 10,
-  historySize: 10,
+  candleSize: 3,
+  historySize: 4,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {

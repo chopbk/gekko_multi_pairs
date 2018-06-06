@@ -31,8 +31,8 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'RSI_BB_ADX_Peak',
-  candleSize: 2,
-  historySize: 3,
+  candleSize: 3,
+  historySize: 5,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {

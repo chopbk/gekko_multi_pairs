@@ -98,7 +98,7 @@ Actor.prototype.emitAdvice = function(chatId) {
       this.adviceTime.fromNow() +
       ')';
   } else {
-    message += 'None'
+    message += ' None'
   }
 
   if (chatId) {

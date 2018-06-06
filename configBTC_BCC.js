@@ -17,8 +17,8 @@ config.watch = {
   currency: 'BTC',
   asset: 'BCC',
   enable_fix_amount: true,
-  max_amount_currency_buy: 0.0015,
-  max_amount_asset_sell: 0,
+  max_amount_currency_buy: 0,
+  max_amount_asset_sell: 0.008,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -40,7 +40,12 @@ config.BitBankStrategy = {
   apiKey : "1AjN4AyhVgKCLLH7eWiu6H4AHDpxcNXmKK",
   pair : "USDT_BTC",
   maxFeatureSetAgeInSeconds : 60,
-  candlePeriodInMinutes : 1
+  candlePeriodInMinutes : 1,
+ backTest: {
+	enable: false,
+  csvPath : "/home/dinhtam94/0.work/gekko_multi_pairs/BTC_BCC.csv",
+}
+	
 }
 config.RsiStopLoss = {
   interval: 14,

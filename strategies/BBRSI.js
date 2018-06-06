@@ -71,8 +71,8 @@ method.check = function (candle) {
   if ((price < BB.upper) && (price >= BB.middle)) zone = 'high';
   if ((price > BB.lower) && (price < BB.middle)) zone = 'low';
   if (price <= BB.lower) zone = 'bottom';
-  log.debug('current zone:  ', zone);
-  log.debug('current trend duration:  ', this.trend.duration);
+//  log.debug('current zone:  ', zone);
+//  log.debug('current trend duration:  ', this.trend.duration);
 
   if (this.trend.zone == zone) {
     this.trend = {

@@ -15,7 +15,7 @@ config.watch = {
   currency:'USDT',
   asset: 'BNB',
   enable_fix_amount: true,
-  max_amount_currency_buy: 18,
+  max_amount_currency_buy: 20,
   max_amount_asset_sell: 0,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
@@ -31,10 +31,28 @@ config.watch = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 config.tradingAdvisor = {
   enabled: true,
-  method: 'NEO',
+  method: 'RSI_Bull_Bear_Adx_Stop',
   candleSize: 10,
   historySize: 16,
   adapter: 'sqlite'
+}
+config.RSI_Bull_Bear_Adx_Stop = {
+  SMA_long: 1000,
+  SMA_short: 50,
+  BULL_RSI: 10,
+  BULL_RSI_high: 80,
+  BULL_RSI_low: 60,
+  BEAR_RSI: 15,
+  BEAR_RSI_high: 50,
+  BEAR_RSI_low: 20,
+  BULL_MOD_high: 5,
+  BULL_MOD_low: -5,
+  BEAR_MOD_high: 15,
+  BEAR_MOD_low: -5,
+  ADX: 3,
+  ADX_high: 70,
+  ADX_low: 50,
+  Stop_Loss_Percent: 75
 }
 config.NEO = {
 SMA_long : 150,

@@ -18,7 +18,7 @@ config.watch = {
   asset: 'EOS',
   enable_fix_amount: true,
   max_amount_currency_buy: 0,
-  max_amount_asset_sell: 1.6,
+  max_amount_asset_sell: 1.5,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -33,7 +33,7 @@ config.tradingAdvisor = {
   enabled: true,
   method: 'RSI_Bull_Bear_Adx_Stop',
   candleSize: 3,
-  historySize: 4,
+  historySize: 5,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {

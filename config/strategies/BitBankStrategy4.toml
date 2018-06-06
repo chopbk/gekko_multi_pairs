@@ -1,0 +1,10 @@
+apiKey = "API-KEY"
+pair = "BTC_ETH"
+maxFeatureSetAgeInSeconds = 60
+candlePeriodInMinutes = 1
+thresholdSumFeaturesForBuy = 5.03
+thresholdSumFeaturesForSell = 1.03
+
+[backTest]
+enable = true
+csvPath = "/mnt/d/repos/bitbank-gekko/backtest-data/bitbank-btc_eth-by-date.csv"

@@ -18,7 +18,7 @@ config.watch = {
   asset: 'NEO',
   enable_fix_amount: true,
   max_amount_currency_buy: 0,
-  max_amount_asset_sell: 0.43,
+  max_amount_asset_sell: 0.175,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -31,10 +31,23 @@ config.watch = {
 
 config.tradingAdvisor = {
   enabled: true,
-  method: 'NEO',
+  method: 'BBRSI',
   candleSize: 10,
   historySize: 15,
   adapter: 'sqlite'
+}
+config.BBRSI = {
+  interval : 14,
+  thresholds: {
+  low : 40,
+  high : 40,
+  persistence : 9,
+  },
+  bbands : {
+  TimePeriod : 20,
+  NbDevUp : 2,
+  NbDevDn : 2,
+  }
 }
 config.NEO = {
 SMA_long : 150,
@@ -476,7 +489,7 @@ config.backtest = {
 config.importer = {
   daterange: {
     // NOTE: these dates are in UTC
-    from: "2018-12-01 00:00:00"
+    from: "2018-04-20 00:00:00"
   }
 }
 
