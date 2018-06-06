@@ -1,3 +1,17 @@
+config.BBRSI = {
+  interval : 14,
+
+  thresholds: {
+  low : 40,
+  high : 40,
+  persistence : 9,
+  },
+  bbands : {
+  TimePeriod : 20,
+  NbDevUp : 2,
+  NbDevDn : 2,
+  }
+}
 config.RsiStopLoss = {
   interval: 14,
   thresholds: {
@@ -11,6 +25,18 @@ config.RsiStopLoss = {
     progressive: true,
     progressivegain: 2
   }
+}
+config.NNv2 = {
+  threshold_buy_bear: 2.0,
+  threshold_buy_bull: 0.5,
+  threshold_sell_bear: -0.5,
+  threshold_sell_bull: -0.5,
+  NN_SMMA_Length: 4,
+  maFast: 20,
+  maSlow: 720,
+  decay: 0.5,
+  price_buffer_len: 120,
+  stoploss_threshold: 5
 }
 config.RSI_BB_ADX_Peak = {
   SMA_long: 1000,
@@ -70,7 +96,7 @@ config.neuralnet = {
   learning_rate: 1.2, // The learning rate of net
   momentum: 0.9, // learning speed
   decay: 0.10,
-  min_predictions: 600, //minimum number of predictions until the network is considered 'trained'. History size should be equal
+  min_predictions: 720, //minimum number of predictions until the network is considered 'trained'. History size should be equal
   hodl_threshold: 1, //enables stoploss function
   stoploss_enabled: false, //trigger stoploss 5% under last buyprice
   stoploss_threshold: 0.9, // Exponential Moving Averages settings:
