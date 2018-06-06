@@ -1,1 +1,1 @@
-cd /home/dinhtam94/0.work/gekko_multi_pairs &&  node gekko --config configBTC_IOST.js > result_trade/btc_iost.txt
+cd /home/dinhtam94/0.work/gekko_multi_pairs &&  nohup node gekko --config configBTC_IOST.js > result_trade/iost_btc.txt
