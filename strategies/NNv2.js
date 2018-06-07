@@ -47,12 +47,12 @@ var strategy = {
       return;
     }
 
-    log.debug(`
+    /*log.debug(`
       Current market: ${this.market}
       Percent change predicted: ${predictedPercentChange}
       Current price: ${currentPrice}
       Last buy price: ${this.lastBuyPrice}
-      Current position: ${this.previousAdvice}`);
+      Current position: ${this.previousAdvice}`);*/
 
     if(this.indicators.zTrailingStop.shouldSell){
       this.indicators.zTrailingStop.short(currentPrice);
@@ -89,9 +89,9 @@ var strategy = {
   },
 
   end : function() {
-    log.info("Stoploss triggered: " + this.indicators.zTrailingStop.timesStopped + " times.")
+   /* log.info("Stoploss triggered: " + this.indicators.zTrailingStop.timesStopped + " times.")
     log.info(`Bear profits: ${this.bearProfits}, Bull profits: ${this.bullProfits}`);
-    log.info(`Bear Losses: ${this.bearLosses}, Bull Losses: ${this.bullLosses}`);
+    log.info(`Bear Losses: ${this.bearLosses}, Bull Losses: ${this.bullLosses}`);*/
   }
 };
 
