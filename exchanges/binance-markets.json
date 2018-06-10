@@ -2452,8 +2452,8 @@
         "EOS"
       ],
       "minimalOrder": {
-        "amount": 0.001,
-        "price": 0.001,
+        "amount": 0.01,
+        "price": 0.0001,
         "order": 10
       }
     },

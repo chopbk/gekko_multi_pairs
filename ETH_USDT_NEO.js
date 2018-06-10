@@ -31,7 +31,7 @@ config.watch = {
 
 config.tradingAdvisor = {
   enabled: true,
-  method: 'BBRSI',
+  method: 'NEO',
   candleSize: 10,
   historySize: 15,
   adapter: 'sqlite'
