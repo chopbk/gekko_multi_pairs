@@ -116,7 +116,7 @@ Trader.prototype.getPortfolio = function(callback) {
       { name: this.currency, amount: currencyAmount }
     ];
 
-    log.debug('getPortfolio', 'result:', portfolio);
+    //log.debug('getPortfolio', 'result:', portfolio);
 
     callback(err, portfolio);
   }.bind(this);
@@ -170,7 +170,7 @@ Trader.prototype.getFee = function(callback) {
 Trader.prototype.buy = function(amount, price, callback) {
   var args = _.toArray(arguments);
 
-  log.debug('buy', 'called', {amount: amount, price: price});
+ // log.debug('buy', 'called', {amount: amount, price: price});
   var set = function(result, err) {
     if(err || result.error) {
       if(err && err.message === 'INSUFFICIENT_FUNDS') {
@@ -198,7 +198,7 @@ Trader.prototype.buy = function(amount, price, callback) {
 Trader.prototype.sell = function(amount, price, callback) {
   var args = _.toArray(arguments);
 
-  log.debug('sell', 'called', {amount: amount, price: price});
+ // log.debug('sell', 'called', {amount: amount, price: price});
 
   var set = function(result, err) {
     if(err || result.error) {
@@ -260,7 +260,7 @@ Trader.prototype.getOrder = function(order, callback) {
        date = moment(resultOrder.Closed);
     }
 
-    log.debug('getOrder', 'result', {price, amount, date});
+    //log.debug('getOrder', 'result', {price, amount, date});
     callback(err, {price, amount, date});
   }.bind(this);
 
@@ -270,7 +270,7 @@ Trader.prototype.getOrder = function(order, callback) {
 Trader.prototype.cancelOrder = function(order, callback) {
   var args = _.toArray(arguments);
   var cancel = function(result, err) {
-    log.debug('cancelOrder', 'called', order);
+   // log.debug('cancelOrder', 'called', order);
 
     if(err) {
       if(err.success) {
@@ -297,7 +297,7 @@ Trader.prototype.cancelOrder = function(order, callback) {
 
 Trader.prototype.getTrades = function(since, callback, descending) {
 
-  log.debug('getTrades called!', { descending: descending} );
+  //log.debug('getTrades called!', { descending: descending} );
 
   var firstFetch = !!since;
 
