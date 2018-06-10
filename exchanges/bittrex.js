@@ -49,7 +49,7 @@ var Trader = function(config) {
 // waiting 10 seconds
 Trader.prototype.retry = function(method, args) {
   var wait = +moment.duration(10, 'seconds');
-  log.debug(this.name, 'returned an error, retrying.', args);
+ // log.debug(this.name, 'returned an error, retrying.', args);
 
   var self = this;
 
@@ -70,7 +70,7 @@ Trader.prototype.retry = function(method, args) {
 
 Trader.prototype.getPortfolio = function(callback) {
   var args = _.toArray(arguments);
-  log.debug('getPortfolio', 'called');
+  //log.debug('getPortfolio', 'called');
 
   var set = function(data, err) {
     if(err) {
@@ -127,7 +127,7 @@ Trader.prototype.getPortfolio = function(callback) {
 Trader.prototype.getTicker = function(callback) {
   var args = _.toArray(arguments);
 
-  log.debug('getTicker', 'called');
+  //log.debug('getTicker', 'called');
 
   this.bittrexApi.getticker({market: this.pair}, function(data, err) {
     if(err)
@@ -135,7 +135,7 @@ Trader.prototype.getTicker = function(callback) {
 
     var tick = data.result;
 
-    log.debug('getTicker', 'result', tick);
+   // log.debug('getTicker', 'result', tick);
 
     callback(null, {
       bid: parseFloat(tick.Bid),
@@ -147,7 +147,7 @@ Trader.prototype.getTicker = function(callback) {
 
 Trader.prototype.getFee = function(callback) {
 
-  log.debug('getFee', 'called');
+  //log.debug('getFee', 'called');
   /*var set = function(data, err) {
     if(err || data.error)
       return callback(err || data.error);
@@ -175,16 +175,16 @@ Trader.prototype.buy = function(amount, price, callback) {
     if(err || result.error) {
       if(err && err.message === 'INSUFFICIENT_FUNDS') {
           // retry with the already reduced amount, will be reduced again in the recursive call
-          log.error('Error buy ' , 'INSUFFICIENT_FUNDS', err );
+          //log.error('Error buy ' , 'INSUFFICIENT_FUNDS', err );
           // correct the amount to avoid an INSUFFICIENT_FUNDS exception
           var correctedAmount = amount - (0.00255*amount);
-          log.debug('buy', 'corrected amount', {amount: correctedAmount, price: price});
+         // log.debug('buy', 'corrected amount', {amount: correctedAmount, price: price});
          return this.retry(this.buy, [correctedAmount, price, callback]);
       } else if (err && err.message === 'DUST_TRADE_DISALLOWED_MIN_VALUE_50K_SAT') {
         callback(null, 'dummyOrderId');
         return;
       }
-      log.error('unable to buy:', {err: err, result: result});
+      //log.error('unable to buy:', {err: err, result: result});
       return this.retry(this.buy, args);
     }
 
@@ -202,7 +202,7 @@ Trader.prototype.sell = function(amount, price, callback) {
 
   var set = function(result, err) {
     if(err || result.error) {
-       log.error('unable to sell:',  {err: err, result: result});
+      // log.error('unable to sell:',  {err: err, result: result});
 
        if(err && err.message === 'DUST_TRADE_DISALLOWED_MIN_VALUE_50K_SAT') {
          callback(null, 'dummyOrderId');
@@ -222,11 +222,11 @@ Trader.prototype.sell = function(amount, price, callback) {
 
 Trader.prototype.checkOrder = function(order, callback) {
   var check = function(result, err) {
-    log.debug('checkOrder', 'called');
+    //log.debug('checkOrder', 'called');
 
     var stillThere = _.find(result.result, function(o) { return o.OrderUuid === order });
 
-    log.debug('checkOrder', 'result', stillThere);
+   // log.debug('checkOrder', 'result', stillThere);
     callback(err, !stillThere);
   }.bind(this);
 
@@ -237,7 +237,7 @@ Trader.prototype.getOrder = function(order, callback) {
 
   var get = function(result, err) {
 
-    log.debug('getOrder', 'called');
+   // log.debug('getOrder', 'called');
 
     if(err)
       return callback(err);
@@ -274,10 +274,10 @@ Trader.prototype.cancelOrder = function(order, callback) {
 
     if(err) {
       if(err.success) {
-          log.error('unable to cancel order', order, '(', err, result, '), retrying');
+        //  log.error('unable to cancel order', order, '(', err, result, '), retrying');
           return this.retry(this.cancelOrder, args);
       } else {
-          log.error('unable to cancel order', order, '(', err, result, '), continue');
+         // log.error('unable to cancel order', order, '(', err, result, '), continue');
           callback();
           return;
       }

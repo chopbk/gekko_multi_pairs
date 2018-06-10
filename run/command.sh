@@ -32,4 +32,5 @@ nohup node gekko --config ETH_USDT_NEO.js  >   result_trade/eth_usdt_neo.txt 2> 
 nohup node gekko --config BNB_BTC_NNv2.js  >   result_trade/bnb_btc_nnv2.txt 2> /dev/null &
 nohup node gekko --config NEO_USDT_NEO.js  >   result_trade/neo_usdt_neo.txt 2> /dev/null &
 nohup node gekko --config NEO_USDT_BBRSI.js  >   result_trade/neo_usdt_bbrsi.txt 2> /dev/null &
-nohup node gekko --config ADA_USDT_bittrex_bbrsi.js  >  /home/dinhtam94/0.work/gekko_multi_pairs/result_trade 2> /dev/null &
+nohup node gekko --config ADA_USDT_bittrex_bbrsi.js  >  /home/dinhtam94/0.work/gekko_multi_pairs/result_trade/ada_usdt_bittrex.txt 2> /dev/null &
+nohup node gekko --config NEO_USDT_BBRSI_bittrex.js  >  /home/dinhtam94/0.work/gekko_multi_pairs/result_trade/neo_usdt_bittrex.txt 2> /dev/null &
