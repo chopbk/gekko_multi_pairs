@@ -48,7 +48,7 @@ var Trader = function(config) {
 // if the exchange errors we try the same call again after
 // waiting 10 seconds
 Trader.prototype.retry = function(method, args) {
-  var wait = +moment.duration(10, 'seconds');
+  var wait = +moment.duration(20, 'seconds');
  // log.debug(this.name, 'returned an error, retrying.', args);
 
   var self = this;

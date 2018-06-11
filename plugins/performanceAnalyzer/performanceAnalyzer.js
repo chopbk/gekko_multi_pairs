@@ -148,6 +148,7 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   let balance = amount_currency_sold + this.price *amount_asset_bought;
   let blanceAsset = amount_currency_sold/this.price + amount_asset_bought;
   let profit = balance - max_amount_currency_buy;
+  let profitAsset = (asset - max_amount_asset_sell)*100/max_amount_asset_sell;
   let timespan = moment.duration(
   this.dates.end.diff(this.dates.start)
   );
@@ -176,7 +177,7 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
     startBalance: max_amount_currency_buy,
     startAsset: max_amount_asset_sell,
     blanceAsset: blanceAsset,
-    profitAsset: (asset - max_amount_asset_sell)*100/max_amount_asset_sell,
+    profitAsset: profitAsset,
     sharpe: this.sharpe
   }
 
