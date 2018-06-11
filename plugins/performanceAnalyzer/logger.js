@@ -43,7 +43,7 @@ Logger.prototype.logReport = function(trade, report) {
     `(PROFIT REPORT) simulated profit:\t\t ${this.round(report.profit)} ${this.currency}`,
     `(${this.round(report.relativeProfit)}%)`
   );
-  log.info(`(PROFIT REPORT) asset changes:\t ${this.round(report.profitAsset)} % ${report.startAsset} to ${report.blanceAsset}  ${this.asset}`);
+  log.info(`(PROFIT REPORT) asset changes:\t ${this.round(report.profitAsset)} % ${this.round(report.startAsset)} to ${this.round(report.blanceAsset)}  ${this.asset}`);
   log.info(`(PROFIT REPORT) market changes:\t ${marketChanges} % ${startPrice} to ${endPrice}`);
   
 }
