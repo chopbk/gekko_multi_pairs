@@ -355,10 +355,9 @@ config.ircbot = {
 config.telegrambot = {
   enabled: true,
   emitUpdates: true,
-  token: '473634383:AAEeFVnuVO0hebqVoaPKfRiO1mcuhaEGXcE',
-  botName: 'Tamdaicabot'
+token: '573474406:AAHJ8t3_5SzdEip4mPm_Vutne852ojS8frw',
+  botName: 'BTC_tamdaica_bot'
 }
-
 config.twitter = {
     // sends pushbullets if true
   enabled: false,
