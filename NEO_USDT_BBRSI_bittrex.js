@@ -263,7 +263,8 @@ config.trader = {
   key: '785b9f3152f34de89c8ba56d09402153',
   secret: '9f8ec244e59545f695b3be19bd999457',
   username: 'Dinhtam94@gmail.com', // your username, only required for specific exchanges.
-  passphrase: '' // GDAX, requires a passphrase.
+  passphrase: '', // GDAX, requires a passphrase.
+  orderUpdateDelay: 2, // Number of minutes to adjust unfilled order prices
 }
 config.stop = {
   enabled: true,
