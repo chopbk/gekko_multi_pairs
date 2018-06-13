@@ -13,12 +13,13 @@ config.debug = true; // for additional logging / debugging
 config.watch = {
 
   // see https://gekko.wizb.it/docs/introduction/supported_exchanges.html
-  exchange: 'bittrex',
-  currency: 'USDT',
-  asset: 'ADA',
+  exchange: 'binance',
+  currency: 'BTC',
+  asset: 'XVG',
   enable_fix_amount: true,
   max_amount_currency_buy: 0,
-  max_amount_asset_sell: 120,
+  max_amount_asset_sell: 500,
+
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -28,192 +29,162 @@ config.watch = {
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //                       CONFIGURING TRADING ADVICE
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 config.tradingAdvisor = {
   enabled: true,
   method: 'BBRSI',
-  candleSize: 3,
-  historySize: 10,
+  candleSize: 5,
+  historySize: 12,
   adapter: 'sqlite'
 }
-config.gforms = {
-  enabled: true,
-  botTag: 'ltc_usdt_bbrsi', //Add a custom tag here. This will be included in the name of the spreadsheet tab for this bot.
-  // Get a prefilled link of your google for, each question answered with a single space and paste here.
-  // It should resemble: https://docs.google.com/forms/d/e/1FAIp-My-Form-ID-K6PaOg3bPLg/viewform?usp=pp_url&entry.852051357=+&entry.1346916648=+&entry.1743858251=+&entry.105864059=+&entry.68010386=+&entry.3616735=+&entry.1463011579=+&entry.433943481=+&entry.620326103=+&entry.1202282384=+&entry.1415514787=+
-  prefill: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ_tIHuR3bZk7rtoOsP19Z4G7pzMIVokPjjLtprqYEL-vNew/viewform?usp=pp_url&entry.844370847=+&entry.1283504820=+&entry.1362807661=+&entry.821554856=+&entry.1419081390=+&entry.1130305640=+&entry.944005728=+&entry.1281633778=+&entry.774419284=+&entry.1710928960=+&entry.1153600456=+',
-};
-config.BBRSI = {
-  interval : 14,
-
-  thresholds: {
-  low : 40,
-  high : 40,
-  persistence : 9,
-  },
-  bbands : {
-  TimePeriod : 20,
-  NbDevUp : 2,
-  NbDevDn : 2,
-  }
-}
-config.NNv2 = {
-  threshold_buy_bear: 2.0,
-  threshold_buy_bull: 0.5,
-  threshold_sell_bear: -0.5,
-  threshold_sell_bull: -0.5,
-  NN_SMMA_Length: 4,
-  maFast: 20,
-  maSlow: 720,
-  decay: 0.5,
-  price_buffer_len: 120,
-  stoploss_threshold: 5
-}
 config.RsiStopLoss = {
-  interval : 14,
+  interval: 14,
   thresholds: {
-    low : 30,
-    high : 70,
-    persistence : 1,
+    low: 30,
+    high: 70,
+    persistence: 1,
   },
   stoploss: {
-    loss : 5,
-    gain : 8,
-    progressive : true,
-    progressivegain : 2
+    loss: 5,
+    gain: 8,
+    progressive: true,
+    progressivegain: 2
   }
 }
 config.RSI_BB_ADX_Peak = {
-  SMA_long : 1000,
-  SMA_short : 50,
-  BULL_RSI : 10,
-  BULL_RSI_high : 80,
-  BULL_RSI_low : 60,
-  BEAR_RSI : 15,
-  BEAR_RSI_high : 50,
-  BEAR_RSI_low : 20,
-  BULL_MOD_high : 5,
-  BULL_MOD_low : -5,
-  BEAR_MOD_high : 15,
-  BEAR_MOD_low : -5,
-  ADX : 3,
-  ADX_high : 70,
-  ADX_low : 50,
-}  
+  SMA_long: 1000,
+  SMA_short: 50,
+  BULL_RSI: 10,
+  BULL_RSI_high: 80,
+  BULL_RSI_low: 60,
+  BEAR_RSI: 15,
+  BEAR_RSI_high: 50,
+  BEAR_RSI_low: 20,
+  BULL_MOD_high: 5,
+  BULL_MOD_low: -5,
+  BEAR_MOD_high: 15,
+  BEAR_MOD_low: -5,
+  ADX: 3,
+  ADX_high: 70,
+  ADX_low: 50,
+}
 config.NEO = {
-  SMA_long : 150,
-  SMA_short : 40,
-  BULL_RSI : 10,
-  BULL_RSI_high : 80,
-  BULL_RSI_low : 50,
-  IDLE_RSI : 12,
-  IDLE_RSI_high : 65,
-  IDLE_RSI_low : 39,
-  BEAR_RSI : 15,
-  BEAR_RSI_high : 50,
-  BEAR_RSI_low : 25,
-  ROC : 6,
-  ROC_lvl : 0
+  SMA_long: 150,
+  SMA_short: 40,
+  BULL_RSI: 10,
+  BULL_RSI_high: 80,
+  BULL_RSI_low: 50,
+  IDLE_RSI: 12,
+  IDLE_RSI_high: 65,
+  IDLE_RSI_low: 39,
+  BEAR_RSI: 15,
+  BEAR_RSI_high: 50,
+  BEAR_RSI_low: 25,
+  ROC: 6,
+  ROC_lvl: 0
 }
 config.RSI_Bull_Bear_Adx_Stop = {
-  SMA_long : 1000,
-  SMA_short : 50,
-  BULL_RSI : 10,
-  BULL_RSI_high : 80,
-  BULL_RSI_low : 60,
-  BEAR_RSI : 15,
-  BEAR_RSI_high : 50,
-  BEAR_RSI_low : 20,
-  BULL_MOD_high : 5,
-  BULL_MOD_low : -5,
-  BEAR_MOD_high : 15,
-  BEAR_MOD_low : -5,
-  ADX : 3,
-  ADX_high : 70,
-  ADX_low : 50,
-  Stop_Loss_Percent : 75
+  SMA_long: 1000,
+  SMA_short: 50,
+  BULL_RSI: 10,
+  BULL_RSI_high: 80,
+  BULL_RSI_low: 60,
+  BEAR_RSI: 15,
+  BEAR_RSI_high: 50,
+  BEAR_RSI_low: 20,
+  BULL_MOD_high: 5,
+  BULL_MOD_low: -5,
+  BEAR_MOD_high: 15,
+  BEAR_MOD_low: -5,
+  ADX: 3,
+  ADX_high: 70,
+  ADX_low: 50,
+  Stop_Loss_Percent: 75
 }
 config.neuralnet = {
-threshold_buy: 1.0,// the treshold for buying into a currency. e.g.: The predicted price is 1% above the current candle.close
-  threshold_sell: -1.0,// the treshold for selling a currency. e.g.: The predicted price is 1% under the current candle.close
-  method : 'adadelta',
-price_buffer_len: 100,// The length of the candle.close price buffer. It's used to train the network on every update cycle.
-learning_rate: 1.2,// The learning rate of net
-momentum: 0.9,// learning speed
+  threshold_buy: 1.0, // the treshold for buying into a currency. e.g.: The predicted price is 1% above the current candle.close
+  threshold_sell: -1.0, // the treshold for selling a currency. e.g.: The predicted price is 1% under the current candle.close
+  method: 'adadelta',
+  price_buffer_len: 100, // The length of the candle.close price buffer. It's used to train the network on every update cycle.
+  learning_rate: 1.2, // The learning rate of net
+  momentum: 0.9, // learning speed
   decay: 0.10,
-  min_predictions: 600,//minimum number of predictions until the network is considered 'trained'. History size should be equal
-  hodl_threshold : 1,//enables stoploss function
-  stoploss_enabled: false,//trigger stoploss 5% under last buyprice
-  stoploss_threshold: 0.9,// Exponential Moving Averages settings:
+  min_predictions: 600, //minimum number of predictions until the network is considered 'trained'. History size should be equal
+  hodl_threshold: 1, //enables stoploss function
+  stoploss_enabled: false, //trigger stoploss 5% under last buyprice
+  stoploss_threshold: 0.9, // Exponential Moving Averages settings:
 };
 config.neuralnet1 = {
-threshold_buy: 1.0,// the treshold for buying into a currency. e.g.: The predicted price is 1% above the current candle.close
-  threshold_sell: -1.0,// the treshold for selling a currency. e.g.: The predicted price is 1% under the current candle.close
-  method : 'adadelta',
-price_buffer_len: 100,// The length of the candle.close price buffer. It's used to train the network on every update cycle.
-learning_rate: 1.2,// The learning rate of net
-momentum: 0.9,// learning speed
+  threshold_buy: 1.0, // the treshold for buying into a currency. e.g.: The predicted price is 1% above the current candle.close
+  threshold_sell: -1.0, // the treshold for selling a currency. e.g.: The predicted price is 1% under the current candle.close
+  method: 'adadelta',
+  price_buffer_len: 100, // The length of the candle.close price buffer. It's used to train the network on every update cycle.
+  learning_rate: 1.2, // The learning rate of net
+  momentum: 0.9, // learning speed
   decay: 0.10,
-  min_predictions: 600,//minimum number of predictions until the network is considered 'trained'. History size should be equal
-  hodl_threshold : 1,//enables stoploss function
-  stoploss_enabled: false,//trigger stoploss 5% under last buyprice
-  stoploss_threshold: 0.9,// Exponential Moving Averages settings:
+  min_predictions: 600, //minimum number of predictions until the network is considered 'trained'. History size should be equal
+  hodl_threshold: 1, //enables stoploss function
+  stoploss_enabled: false, //trigger stoploss 5% under last buyprice
+  stoploss_threshold: 0.9, // Exponential Moving Averages settings:
 };
 config.neuralnet_v2 = {
-threshold_buy: 1.0,// the treshold for buying into a currency. e.g.: The predicted price is 1% above the current candle.close
-  threshold_sell: -1.0,// the treshold for selling a currency. e.g.: The predicted price is 1% under the current candle.close
-price_buffer_len: 100,// The length of the candle.close price buffer. It's used to train the network on every update cycle.
-learning_rate: 0.01,// The learning rate of net
-momentum: 0.1,// learning speed
+  threshold_buy: 1.0, // the treshold for buying into a currency. e.g.: The predicted price is 1% above the current candle.close
+  threshold_sell: -1.0, // the treshold for selling a currency. e.g.: The predicted price is 1% under the current candle.close
+  price_buffer_len: 100, // The length of the candle.close price buffer. It's used to train the network on every update cycle.
+  learning_rate: 0.01, // The learning rate of net
+  momentum: 0.1, // learning speed
   decay: 0.01,
-  min_predictions: 1000,//minimum number of predictions until the network is considered 'trained'. History size should be equal
-  hodl_threshold : 1,//enables stoploss function
-  stoploss_enabled: false,//trigger stoploss 5% under last buyprice
-  stoploss_threshold: 0.9,// Exponential Moving Averages settings:
+  min_predictions: 1000, //minimum number of predictions until the network is considered 'trained'. History size should be equal
+  hodl_threshold: 1, //enables stoploss function
+  stoploss_enabled: false, //trigger stoploss 5% under last buyprice
+  stoploss_threshold: 0.9, // Exponential Moving Averages settings:
 };
 config.RSI_BULL_BEAR = {
-SMA_long : 800,	// SMA Trends
-SMA_short : 40,
-BULL_RSI : 10,	// BULL
-BULL_RSI_high : 80,
-BULL_RSI_low : 50,
-BEAR_RSI : 15,// BEAR
-BEAR_RSI_high : 50,
-BEAR_RSI_low : 25
+  SMA_long: 800, // SMA Trends
+  SMA_short: 40,
+  BULL_RSI: 10, // BULL
+  BULL_RSI_high: 80,
+  BULL_RSI_low: 50,
+  BEAR_RSI: 15, // BEAR
+  BEAR_RSI_high: 50,
+  BEAR_RSI_low: 25
 }
 config.RSI_BULL_BEAR_ADX = {
-SMA_long : 1000, //# SMA INDICATOR
-SMA_short : 50,
-BULL_RSI : 10, //# RSI BULL / BEAR
-BULL_RSI_high : 80,
-BULL_RSI_low : 60,
-BEAR_RSI : 15,
-BEAR_RSI_high : 50,
-BEAR_RSI_low : 20,
-BULL_MOD_high : 5, //# MODIFY RSI (depending on ADX)
-BULL_MOD_low : -5,
-BEAR_MOD_high : 15,
-BEAR_MOD_low : -5,
-ADX : 3, //# ADX
-ADX_high : 70,
-ADX_low : 50,
+  SMA_long: 1000, //# SMA INDICATOR
+  SMA_short: 50,
+  BULL_RSI: 10, //# RSI BULL / BEAR
+  BULL_RSI_high: 80,
+  BULL_RSI_low: 60,
+  BEAR_RSI: 15,
+  BEAR_RSI_high: 50,
+  BEAR_RSI_low: 20,
+  BULL_MOD_high: 5, //# MODIFY RSI (depending on ADX)
+  BULL_MOD_low: -5,
+  BEAR_MOD_high: 15,
+  BEAR_MOD_low: -5,
+  ADX: 3, //# ADX
+  ADX_high: 70,
+  ADX_low: 50,
 }
 config.ThreeCandles = {
-  number_of_candles : 3,
+  number_of_candles: 3,
   stoploss_threshold: 0.85
 }
-config.filewriter = { nnfilepath: "result_trade"};//encure you have created gekko/nn_files folder
-config.zuki_nn = { threshold_buy : 1.0, 
-threshold_sell : -1.0, 
-learning_rate : 0.01, 
-momentum : 0.1, 
-decay : 0.01, 
-stoploss_enabled : false, 
-stoploss_threshold : 0.85, 
-hodl_threshold : 1, 
-price_buffer_len : 100, 
-min_predictions : 1000 
+config.filewriter = {
+  nnfilepath: "result_trade"
+}; //encure you have created gekko/nn_files folder
+config.zuki_nn = {
+  threshold_buy: 1.0,
+  threshold_sell: -1.0,
+  learning_rate: 0.01,
+  momentum: 0.1,
+  decay: 0.01,
+  stoploss_enabled: false,
+  stoploss_threshold: 0.85,
+  hodl_threshold: 1,
+  price_buffer_len: 100,
+  min_predictions: 1000
 };
+
 // Exponential Moving Averages settings:
 config.DEMA = {
   // EMA weight (α)
@@ -328,7 +299,7 @@ config.CCI = {
 
 // StochRSI settings
 config.StochRSI = {
-  interval: 3,
+  interval: 4,
   thresholds: {
     low: 20,
     high: 80,
@@ -378,10 +349,7 @@ config.paperTrader = {
   // how much slippage/spread should Gekko assume per trade?
   slippage: 0.05,
 }
-config.stop = {
-  enabled: true,
-  loss: 0.9,
-}
+
 config.performanceAnalyzer = {
   enabled: true,
   riskFreeReturn: 5
@@ -392,21 +360,20 @@ config.performanceAnalyzer = {
 // watched by `config.watch`.
 config.trader = {
   enabled: true,
-  key: '785b9f3152f34de89c8ba56d09402153',
-  secret: '9f8ec244e59545f695b3be19bd999457',
-  username: 'Dinhtam94@gmail.com', // your username, only required for specific exchanges.
-  passphrase: '', // GDAX, requires a passphrase.
-  orderUpdateDelay: 2, // Number of minutes to adjust unfilled order prices
+  key: 'CAJi88utpzutsVLDilCGlVOmk03CspJhopQmlRIrYU6S6QygSr2xlrHPUa0xeuC6',
+  secret: 'Pk30gRT8Z7tq6uCLerrBPNNF4uzk9IQd9Bk6Mdyj2inMGp5KULKc0PgxL6UPGAnJ',
+  username: 'chopbk', // your username, only required for specific exchanges.
+  passphrase: '' // GDAX, requires a passphrase.
+}
+
+config.adviceLogger = {
+  enabled: true,
+  muteSoft: true // disable advice printout if it's soft
 }
 config.stop = {
   enabled: true,
   loss: 0.1
 }
-config.adviceLogger = {
-  enabled: true,
-  muteSoft: true // disable advice printout if it's soft
-}
-
 config.pushover = {
   enabled: false,
   sendPushoverOnStart: false,
@@ -490,6 +457,7 @@ config.telegrambot = {
 token: '573474406:AAHJ8t3_5SzdEip4mPm_Vutne852ojS8frw',
   botName: 'BTC_tamdaica_bot'
 }
+
 config.twitter = {
     // sends pushbullets if true
   enabled: false,
@@ -628,7 +596,7 @@ config.backtest = {
 config.importer = {
   daterange: {
     // NOTE: these dates are in UTC
-    from: "2018-01-15 00:00:00"
+    from: "2018-12-01 00:00:00"
   }
 }
 

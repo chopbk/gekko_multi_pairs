@@ -250,6 +250,8 @@ Manager.prototype.trade = function (what, retry) {
         }
 
         if (amount_asset_bought != 0) {
+          if(amount_asset_bought/max_amount_asset_sell > 1.15)
+            amount_asset_bought = max_amount_asset_sell*1.05; /*protect 10% profit*/
           amount_temp = amount_asset_bought;
           log.info(
             'SELL amount_asset_bought: ',
