@@ -84,6 +84,8 @@ Actor.prototype.emitUnSubscribe = function() {
 };
 
 Actor.prototype.emitAdvice = function(chatId) {
+  let amount = amount_asset_bought + amount_currency_sold/this.advicePrice;
+  let currentcy_amount = amount_asset_bought*this.advicePrice + amount_currency_sold;
   let message = [ this.advice,
     ' ',config.watch.asset,
     '/',config.watch.currency,
@@ -91,6 +93,10 @@ Actor.prototype.emitAdvice = function(chatId) {
     ' ',config.tradingAdvisor.method,
    ' at ',config.tradingAdvisor.candleSize,
     ' minute in ',config.watch.exchange,
+    ' amount: ',amount.toFixed(7),
+    ' amount_original:', max_amount_asset_sell.toFixed(7),
+    ' currentcy: ',currentcy_amount.toFixed(7),
+    ' currentcy_original: ',max_amount_currency_buy.toFixed(7),
   ].join('');
   if (this.advice) {
     message +=
