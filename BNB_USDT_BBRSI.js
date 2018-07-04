@@ -36,6 +36,13 @@ config.tradingAdvisor = {
   historySize: 10,
   adapter: 'sqlite'
 }
+config.gforms = {
+  enabled: true,
+  botTag: 'bnb_usdt_bbrsi', //Add a custom tag here. This will be included in the name of the spreadsheet tab for this bot.
+  // Get a prefilled link of your google for, each question answered with a single space and paste here.
+  // It should resemble: https://docs.google.com/forms/d/e/1FAIp-My-Form-ID-K6PaOg3bPLg/viewform?usp=pp_url&entry.852051357=+&entry.1346916648=+&entry.1743858251=+&entry.105864059=+&entry.68010386=+&entry.3616735=+&entry.1463011579=+&entry.433943481=+&entry.620326103=+&entry.1202282384=+&entry.1415514787=+
+  prefill: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ_tIHuR3bZk7rtoOsP19Z4G7pzMIVokPjjLtprqYEL-vNew/viewform?usp=pp_url&entry.844370847=+&entry.1283504820=+&entry.1362807661=+&entry.821554856=+&entry.1419081390=+&entry.1130305640=+&entry.944005728=+&entry.1281633778=+&entry.774419284=+&entry.1710928960=+&entry.1153600456=+',
+};
 config.BBRSI = {
   interval : 14,
   thresholds: {
@@ -395,9 +402,9 @@ config.performanceAnalyzer = {
 // watched by `config.watch`.
 config.trader = {
   enabled: true,
-  key: 'CAJi88utpzutsVLDilCGlVOmk03CspJhopQmlRIrYU6S6QygSr2xlrHPUa0xeuC6',
-  secret: 'Pk30gRT8Z7tq6uCLerrBPNNF4uzk9IQd9Bk6Mdyj2inMGp5KULKc0PgxL6UPGAnJ',
-  username: 'chopbk', // your username, only required for specific exchanges.
+  key: 'qtr0j7P4qc8Nsb2qbLwg2dDhSU753S4NcbVtWSZlPTwKC1WK3D5t8dwXQrI2omqG',
+  secret: 'X97qX4I0EOeqAVY0pZmtkfWJ1rXP8Bv4MOmC4bsh29p0RgHWMK0ApgDqijqA0IkC',
+  username: 'chopbot', // your username, only required for specific exchanges.
   passphrase: '' // GDAX, requires a passphrase.
 }
 
@@ -489,8 +496,8 @@ config.ircbot = {
 config.telegrambot = {
   enabled: true,
   emitUpdates: true,
-token: '573474406:AAHJ8t3_5SzdEip4mPm_Vutne852ojS8frw',
-  botName: 'BTC_tamdaica_bot'
+  token: '473634383:AAEeFVnuVO0hebqVoaPKfRiO1mcuhaEGXcE',
+  botName: 'Tamdaicabot'
 }
 config.twitter = {
     // sends pushbullets if true

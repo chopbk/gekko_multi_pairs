@@ -18,7 +18,7 @@ config.watch = {
   asset: 'EOS',
   enable_fix_amount: true,
   max_amount_currency_buy: 0,
-  max_amount_asset_sell: 2.2,
+  max_amount_asset_sell: 2,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -32,8 +32,8 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'BBRSI',
-  candleSize: 5,
-  historySize: 10,
+  candleSize: 10,
+  historySize: 24,
   adapter: 'sqlite'
 }
 config.BBRSI = {
@@ -395,9 +395,9 @@ config.performanceAnalyzer = {
 // watched by `config.watch`.
 config.trader = {
   enabled: true,
-  key: 'CAJi88utpzutsVLDilCGlVOmk03CspJhopQmlRIrYU6S6QygSr2xlrHPUa0xeuC6',
-  secret: 'Pk30gRT8Z7tq6uCLerrBPNNF4uzk9IQd9Bk6Mdyj2inMGp5KULKc0PgxL6UPGAnJ',
-  username: 'chopbk', // your username, only required for specific exchanges.
+  key: 'qtr0j7P4qc8Nsb2qbLwg2dDhSU753S4NcbVtWSZlPTwKC1WK3D5t8dwXQrI2omqG',
+  secret: 'X97qX4I0EOeqAVY0pZmtkfWJ1rXP8Bv4MOmC4bsh29p0RgHWMK0ApgDqijqA0IkC',
+  username: 'chopbot', // your username, only required for specific exchanges.
   passphrase: '' // GDAX, requires a passphrase.
 }
 
@@ -488,10 +488,11 @@ config.ircbot = {
 
 config.telegrambot = {
   enabled: true,
-  emitUpdates: false,
-token: '473634383:AAEeFVnuVO0hebqVoaPKfRiO1mcuhaEGXcE',
-  botName: 'Tamdaicabot'
+  emitUpdates: true,
+  token: '512237042:AAH9Hjn7faGMte8OfiGjptr8eCncaFg-9q4',
+  botName: 'chopbk_bot'
 }
+
 
 config.twitter = {
     // sends pushbullets if true

@@ -32,8 +32,8 @@ config.watch = {
 config.tradingAdvisor = {
   enabled: true,
   method: 'BBRSI',
-  candleSize: 5,
-  historySize: 15,
+  candleSize: 10,
+  historySize: 24,
   adapter: 'sqlite'
 }
 config.gforms = {
@@ -260,9 +260,9 @@ config.performanceAnalyzer = {
 // watched by `config.watch`.
 config.trader = {
   enabled: true,
-  key: 'CAJi88utpzutsVLDilCGlVOmk03CspJhopQmlRIrYU6S6QygSr2xlrHPUa0xeuC6',
-  secret: 'Pk30gRT8Z7tq6uCLerrBPNNF4uzk9IQd9Bk6Mdyj2inMGp5KULKc0PgxL6UPGAnJ',
-  username: 'chopbk', // your username, only required for specific exchanges.
+  key: 'qtr0j7P4qc8Nsb2qbLwg2dDhSU753S4NcbVtWSZlPTwKC1WK3D5t8dwXQrI2omqG',
+  secret: 'X97qX4I0EOeqAVY0pZmtkfWJ1rXP8Bv4MOmC4bsh29p0RgHWMK0ApgDqijqA0IkC',
+  username: 'chopbot', // your username, only required for specific exchanges.
   passphrase: '' // GDAX, requires a passphrase.
 }
 config.stop = {
@@ -354,8 +354,8 @@ config.ircbot = {
 config.telegrambot = {
   enabled: true,
   emitUpdates: true,
-token: '573474406:AAHJ8t3_5SzdEip4mPm_Vutne852ojS8frw',
-  botName: 'BTC_tamdaica_bot'
+  token: '512237042:AAH9Hjn7faGMte8OfiGjptr8eCncaFg-9q4',
+  botName: 'chopbk_bot'
 }
 
 

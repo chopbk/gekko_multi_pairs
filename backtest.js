@@ -397,10 +397,10 @@ config.performanceAnalyzer = {
 // Enabling this will activate trades for the market being
 // watched by `config.watch`.
 config.trader = {
-  enabled: false,
-  key: 'CAJi88utpzutsVLDilCGlVOmk03CspJhopQmlRIrYU6S6QygSr2xlrHPUa0xeuC6',
-  secret: 'Pk30gRT8Z7tq6uCLerrBPNNF4uzk9IQd9Bk6Mdyj2inMGp5KULKc0PgxL6UPGAnJ',
-  username: 'chopbk', // your username, only required for specific exchanges.
+  enabled: true,
+  key: 'qtr0j7P4qc8Nsb2qbLwg2dDhSU753S4NcbVtWSZlPTwKC1WK3D5t8dwXQrI2omqG',
+  secret: 'X97qX4I0EOeqAVY0pZmtkfWJ1rXP8Bv4MOmC4bsh29p0RgHWMK0ApgDqijqA0IkC',
+  username: 'chopbot', // your username, only required for specific exchanges.
   passphrase: '' // GDAX, requires a passphrase.
 }
 
