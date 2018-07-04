@@ -14,11 +14,11 @@ config.watch = {
 
   // see https://gekko.wizb.it/docs/introduction/supported_exchanges.html
   exchange: 'binance',
-  currency: 'BTC',
-  asset: 'ADA',
+  currency: 'USDT',
+  asset: 'BTC',
   enable_fix_amount: true,
-  max_amount_currency_buy: 0.0013,
-  max_amount_asset_sell: 0,
+  max_amount_currency_buy: 10.1,
+  max_amount_asset_sell: 0.0015,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -31,9 +31,9 @@ config.watch = {
 
 config.tradingAdvisor = {
   enabled: true,
-  method: 'RsiStopLoss',
-  candleSize: 3,
-  historySize: 4,
+  method: 'ThreeCandles',
+  candleSize: 1,
+  historySize: 1,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
@@ -166,7 +166,7 @@ ADX_high : 70,
 ADX_low : 50,
 }
 config.ThreeCandles = {
-  number_of_candles : 3,
+  number_of_candles : 1,
   stoploss_threshold: 0.85
 }
 config.filewriter = { nnfilepath: "result_trade"};//encure you have created gekko/nn_files folder

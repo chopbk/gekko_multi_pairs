@@ -17,8 +17,8 @@ config.watch = {
   currency: 'USDT',
   asset: 'BTC',
   enable_fix_amount: true,
-  max_amount_currency_buy: 22.5,
-  max_amount_asset_sell: 0,
+  max_amount_currency_buy: ,
+  max_amount_asset_sell: 0.003,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
@@ -33,7 +33,7 @@ config.tradingAdvisor = {
   enabled: true,
   method: 'NNv2',
   candleSize: 3,
-  historySize: 10,
+  historySize: 6,
   adapter: 'sqlite'
 }
 config.gforms = {

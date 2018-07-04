@@ -38,7 +38,7 @@ config.tradingAdvisor = {
 }
 config.gforms = {
   enabled: true,
-  botTag: 'etc_btc_bbrsi', //Add a custom tag here. This will be included in the name of the spreadsheet tab for this bot.
+  botTag: 'xvg_btc_bbrsi_10', //Add a custom tag here. This will be included in the name of the spreadsheet tab for this bot.
   // Get a prefilled link of your google for, each question answered with a single space and paste here.
   // It should resemble: https://docs.google.com/forms/d/e/1FAIp-My-Form-ID-K6PaOg3bPLg/viewform?usp=pp_url&entry.852051357=+&entry.1346916648=+&entry.1743858251=+&entry.105864059=+&entry.68010386=+&entry.3616735=+&entry.1463011579=+&entry.433943481=+&entry.620326103=+&entry.1202282384=+&entry.1415514787=+
   prefill: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ_tIHuR3bZk7rtoOsP19Z4G7pzMIVokPjjLtprqYEL-vNew/viewform?usp=pp_url&entry.844370847=+&entry.1283504820=+&entry.1362807661=+&entry.821554856=+&entry.1419081390=+&entry.1130305640=+&entry.944005728=+&entry.1281633778=+&entry.774419284=+&entry.1710928960=+&entry.1153600456=+',

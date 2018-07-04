@@ -17,8 +17,8 @@ config.watch = {
   currency: 'BTC',
   asset: 'TRX',
   enable_fix_amount: true,
-  max_amount_currency_buy: 0,
-  max_amount_asset_sell: 184,
+  max_amount_currency_buy: 0.0025,
+  max_amount_asset_sell: 0,
 
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
@@ -33,7 +33,7 @@ config.tradingAdvisor = {
   enabled: true,
   method: 'NEO',
   candleSize: 10,
-  historySize: 16,
+  historySize: 24,
   adapter: 'sqlite'
 }
 config.RsiStopLoss = {
