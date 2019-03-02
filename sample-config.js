@@ -19,7 +19,9 @@ config.watch = {
   exchange: 'binance',
   currency: 'USDT',
   asset: 'BTC',
-
+  enable_fix_amount: true,
+  first_currency_buy: 0,
+  first_asset_sell: 0.001,
   // You can set your own tickrate (refresh rate).
   // If you don't set it, the defaults are 2 sec for
   // okcoin and 20 sec for all other exchanges.
