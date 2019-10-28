@@ -85,17 +85,17 @@ Fetcher.prototype.fetch = function() {
     since = false;
 
   this.tries = 0;
-  log.debug('Requested', this.pair, 'trade data from', this.exchange.name, '...');
+  //log.debug('Requested', this.pair, 'trade data from', this.exchange.name, '...');
   this._fetch(since);
 }
 
 Fetcher.prototype.processTrades = function(err, trades) {
   if(err || _.isEmpty(trades)) {
-    if(err) {
-      log.warn(this.exchange.name, 'returned an error while fetching trades:', err);
-      log.debug('refetching...');
-    } else
-      log.debug('Trade fetch came back empty, refetching...');
+//    if(err) {
+    //  log.warn(this.exchange.name, 'returned an error while fetching trades:', err);
+      //log.debug('refetching...');
+//    } else
+  //    //log.debug('Trade fetch came back empty, refetching...');
     setTimeout(this._fetch, +moment.duration('s', 1));
     return;
   }

@@ -1,4 +1,3 @@
-
 const _ = require('lodash');
 const moment = require('moment');
 
@@ -13,7 +12,7 @@ const watchConfig = config.watch;
 
 const Logger = require('./logger');
 
-const PerformanceAnalyzer = function() {
+const PerformanceAnalyzer = function () {
   _.bindAll(this);
 
   this.dates = {
@@ -32,7 +31,7 @@ const PerformanceAnalyzer = function() {
   this.trades = 0;
 
   this.exposure = 0;
-  
+
   this.roundTrips = [];
   this.losses = [];
   this.roundTrip = {
@@ -50,27 +49,27 @@ const PerformanceAnalyzer = function() {
   this.warmupCompleted = false;
 }
 
-PerformanceAnalyzer.prototype.processPortfolioValueChange = function(event) {
-  if(!this.start.balance) {
+PerformanceAnalyzer.prototype.processPortfolioValueChange = function (event) {
+  if (!this.start.balance) {
     this.start.balance = event.balance;
   }
 
   this.balance = event.balance;
 }
 
-PerformanceAnalyzer.prototype.processPortfolioChange = function(event) {
-  if(!this.start.portfolio) {
+PerformanceAnalyzer.prototype.processPortfolioChange = function (event) {
+  if (!this.start.portfolio) {
     this.start.portfolio = event;
   }
 }
 
-PerformanceAnalyzer.prototype.processStratWarmupCompleted = function() {
+PerformanceAnalyzer.prototype.processStratWarmupCompleted = function () {
   this.warmupCompleted = true;
   this.processCandle(this.warmupCandle, _.noop);
 }
 
-PerformanceAnalyzer.prototype.processCandle = function(candle, done) {
-  if(!this.warmupCompleted) {
+PerformanceAnalyzer.prototype.processCandle = function (candle, done) {
+  if (!this.warmupCompleted) {
     this.warmupCandle = candle;
     return done();
   }
@@ -78,21 +77,21 @@ PerformanceAnalyzer.prototype.processCandle = function(candle, done) {
   this.price = candle.close;
   this.dates.end = candle.start.clone().add(1, 'minute');
 
-  if(!this.dates.start) {
+  if (!this.dates.start) {
     this.dates.start = candle.start;
     this.startPrice = candle.close;
   }
 
   this.endPrice = candle.close;
 
-  if(this.openRoundTrip) {
+  if (this.openRoundTrip) {
     this.emitRoundtripUpdate();
   }
 
   done();
 }
 
-PerformanceAnalyzer.prototype.emitRoundtripUpdate = function() {
+PerformanceAnalyzer.prototype.emitRoundtripUpdate = function () {
   const uPnl = this.price - this.roundTrip.entry.price;
 
   this.deferredEmit('roundtripUpdate', {
@@ -103,7 +102,7 @@ PerformanceAnalyzer.prototype.emitRoundtripUpdate = function() {
   })
 }
 
-PerformanceAnalyzer.prototype.processTradeCompleted = function(trade) {
+PerformanceAnalyzer.prototype.processTradeCompleted = function (trade) {
   this.trades++;
   this.portfolio = trade.portfolio;
   this.balance = trade.balance;
@@ -111,19 +110,19 @@ PerformanceAnalyzer.prototype.processTradeCompleted = function(trade) {
   this.registerRoundtripPart(trade);
 
   const report = this.calculateReportStatistics();
-  if(report) {
+  if (report) {
     this.logger.handleTrade(trade, report);
     this.deferredEmit('performanceReport', report);
   }
 }
 
-PerformanceAnalyzer.prototype.registerRoundtripPart = function(trade) {
-  if(this.trades === 1 && trade.action === 'sell') {
+PerformanceAnalyzer.prototype.registerRoundtripPart = function (trade) {
+  if (this.trades === 1 && trade.action === 'sell') {
     // this is not part of a valid roundtrip
     return;
   }
 
-  if(trade.action === 'buy') {
+  if (trade.action === 'buy') {
     if (this.roundTrip.exit) {
       this.roundTrip.id++;
       this.roundTrip.exit = false
@@ -135,7 +134,7 @@ PerformanceAnalyzer.prototype.registerRoundtripPart = function(trade) {
       total: trade.portfolio.currency + (trade.portfolio.asset * trade.price),
     }
     this.openRoundTrip = true;
-  } else if(trade.action === 'sell') {
+  } else if (trade.action === 'sell') {
     this.roundTrip.exit = {
       date: trade.date,
       price: trade.price,
@@ -147,7 +146,7 @@ PerformanceAnalyzer.prototype.registerRoundtripPart = function(trade) {
   }
 }
 
-PerformanceAnalyzer.prototype.handleCompletedRoundtrip = function() {
+PerformanceAnalyzer.prototype.handleCompletedRoundtrip = function () {
   var roundtrip = {
     id: this.roundTrip.id,
 
@@ -176,14 +175,62 @@ PerformanceAnalyzer.prototype.handleCompletedRoundtrip = function() {
   // track losses separately for downside report
   if (roundtrip.exitBalance < roundtrip.entryBalance)
     this.losses.push(roundtrip);
-  
+
 }
 
-PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
-  if(!this.start.balance || !this.start.portfolio) {
+PerformanceAnalyzer.prototype.calculateReportStatistics = function () {
+  if (!this.start.balance || !this.start.portfolio) {
     log.error('Cannot calculate a profit report without having received portfolio data.');
     log.error('Skipping performanceReport..');
     return false;
+  }
+  /*tsuperprince START add calculateReportStatistics when feature fix amount enable*/
+  if (enable_fix_amount) {
+    const timespan = moment.duration(
+      this.dates.end.diff(this.dates.start)
+    );
+    let balance_new = amount_sold + this.price * amount_bought;
+    let blanceAsset = amount_sold / this.price + amount_bought;
+    const profit = balance_new - first_currency_buy;
+    const relativeprofit = balance_new / first_currency_buy * 100 - 100;
+    let relativeYearlyProfit = relativeprofit / timespan.asYears();
+    let profitAsset = (blanceAsset - first_asset_sell) * 100 / first_asset_sell;
+    const percentExposure = this.exposure / (Date.parse(this.dates.end) - Date.parse(this.dates.start));
+
+    const sharpe = (relativeYearlyProfit - perfConfig.riskFreeReturn) /
+      statslite.stdev(this.roundTrips.map(r => r.profit)) /
+      Math.sqrt(this.trades / (this.trades - 2));
+
+    const downside = statslite.percentile(this.losses.map(r => r.profit), 0.25) *
+      Math.sqrt(this.trades / (this.trades - 2));
+    const report = {
+      startTime: this.dates.start.utc().format('YYYY-MM-DD HH:mm:ss'),
+      endTime: this.dates.end.utc().format('YYYY-MM-DD HH:mm:ss'),
+      timespan: timespan.humanize(),
+      market: this.endPrice * 100 / this.startPrice - 100,
+
+      balance: balance_new,
+      profit: profit,
+      relativeProfit: relativeprofit,
+
+      yearlyProfit: profit / timespan.asYears(),
+      relativeYearlyProfit: relativeYearlyProfit,
+
+      startPrice: this.startPrice,
+      endPrice: this.endPrice,
+      trades: this.trades,
+      startBalance: first_currency_buy,
+      startAsset: first_asset_sell,
+      blanceAsset: blanceAsset,
+      profitAsset: profitAsset,
+      exposure: percentExposure,
+      sharpe,
+      downside
+    }
+    report.alpha = report.profit - report.market;
+
+    return report;
+    /*tsuperprince END add calculateReportStatistics when feature fix amount enable*/
   }
 
   // the portfolio's balance is measured in {currency}
@@ -194,15 +241,15 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   );
   const relativeProfit = this.balance / this.start.balance * 100 - 100;
   const relativeYearlyProfit = relativeProfit / timespan.asYears();
-  
+
   const percentExposure = this.exposure / (Date.parse(this.dates.end) - Date.parse(this.dates.start));
 
-  const sharpe = (relativeYearlyProfit - perfConfig.riskFreeReturn) 
-    / statslite.stdev(this.roundTrips.map(r => r.profit)) 
-    / Math.sqrt(this.trades / (this.trades - 2));
-  
-  const downside = statslite.percentile(this.losses.map(r => r.profit), 0.25)
-    * Math.sqrt(this.trades / (this.trades - 2));
+  const sharpe = (relativeYearlyProfit - perfConfig.riskFreeReturn) /
+    statslite.stdev(this.roundTrips.map(r => r.profit)) /
+    Math.sqrt(this.trades / (this.trades - 2));
+
+  const downside = statslite.percentile(this.losses.map(r => r.profit), 0.25) *
+    Math.sqrt(this.trades / (this.trades - 2));
 
   const report = {
     startTime: this.dates.start.utc().format('YYYY-MM-DD HH:mm:ss'),
@@ -231,13 +278,13 @@ PerformanceAnalyzer.prototype.calculateReportStatistics = function() {
   return report;
 }
 
-PerformanceAnalyzer.prototype.finalize = function(done) {
-  if(!this.trades) {
+PerformanceAnalyzer.prototype.finalize = function (done) {
+  if (!this.trades) {
     return done();
   }
 
   const report = this.calculateReportStatistics();
-  if(report) {
+  if (report) {
     this.logger.finalize(report);
     this.emit('performanceReport', report);
   }
@@ -246,3 +293,4 @@ PerformanceAnalyzer.prototype.finalize = function(done) {
 
 
 module.exports = PerformanceAnalyzer;
+

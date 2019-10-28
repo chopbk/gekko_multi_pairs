@@ -40,7 +40,7 @@ class Portfolio {
   setBalances(callback) {
     let set = (err, fullPortfolio) => {
       if(err) {
-        console.log(err);
+  //      console.log(err);
         throw new errors.ExchangeError(err);
       }
 
