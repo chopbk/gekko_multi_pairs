@@ -56,7 +56,7 @@ const Trader = function(next) {
 util.makeEventEmitter(Trader);
 
 Trader.prototype.sync = function(next) {
-  log.debug('syncing private data');
+//  log.debug('syncing private data');
   this.broker.syncPrivateData(() => {
     if(!this.price) {
       this.price = this.broker.ticker.bid;
